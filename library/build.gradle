@@ -5,7 +5,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:1.0.0'
+    classpath 'com.android.tools.build:gradle:1.2.3'
   }
 }
 
@@ -14,13 +14,13 @@ repositories {
 }
 
 dependencies {
-  compile 'com.android.support:support-v4:19.1.0'
+  compile 'com.android.support:support-v4:22.1.1'
   compile 'com.nineoldandroids:library:2.4.0'
 }
 
 android {
-  compileSdkVersion 21
-  buildToolsVersion "21.1.1"
+  compileSdkVersion defaultCompileSdkVersion
+  buildToolsVersion defaultBuildToolsVersion
   lintOptions {
     abortOnError false
   }
