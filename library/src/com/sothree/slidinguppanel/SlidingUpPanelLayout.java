@@ -580,6 +580,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
         mScrollableView = scrollableView;
     }
 
+    public View getScrollableView() {
+        return mScrollableView;
+    }
+
     /**
      * Set an anchor point where the panel can stop during sliding
      *
