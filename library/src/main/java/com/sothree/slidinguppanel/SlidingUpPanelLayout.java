@@ -580,6 +580,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
         mScrollableView = scrollableView;
     }
 
+    public View getScrollableView() {
+        return mScrollableView;
+    }
+
     /**
      * Sets the current scrollable view helper. See ScrollableViewHelper description for details.
      *
