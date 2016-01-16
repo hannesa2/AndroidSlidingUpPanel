@@ -1,31 +1,29 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-  repositories {
-    jcenter()
-  }
-
-  dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.2'
-  }
-}
-
-def isReleaseBuild() {
-  return version.contains("SNAPSHOT") == false
-}
-
-allprojects {
-  version = VERSION_NAME
-    group = GROUP
-
     repositories {
-      jcenter()
-      maven {
-        url "https://maven.google.com"
-      }
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.4'
     }
 }
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '3.3'
-  distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
+allprojects {
+    repositories {
+        jcenter()
+        google()
+    }
+
+    // show detailed warnings in gradle output
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+    }
+}
+
+ext {
+    defaultCompileSdkVersion = 28
+    defaultMinSdkVersion = 16
+    defaultTargetSdkVersion = 28
+    defaultBuildToolsVersion = "28.0.1"
+    defaultSupportLibVersion = "27.1.1"
 }
