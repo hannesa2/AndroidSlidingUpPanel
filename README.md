@@ -23,7 +23,7 @@ Simply add the following dependency to your `build.gradle` file to use the lates
 ```groovy
 dependencies {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     compile 'com.sothree.slidinguppanel:library:3.1.1'
 }
