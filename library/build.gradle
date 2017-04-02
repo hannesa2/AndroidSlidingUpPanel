@@ -25,8 +25,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion defaultCompileSdkVersion
-    buildToolsVersion defaultBuildToolsVersion
+    compileSdkVersion project.hasProperty("defaultCompileSdkVersion") ? defaultCompileSdkVersion : 23
+    buildToolsVersion project.hasProperty("defaultBuildToolsVersion") ? defaultBuildToolsVersion : "25.0.2"
     lintOptions {
         abortOnError false
     }
@@ -39,5 +39,4 @@ android {
             assets.srcDirs = ['assets']
         }
     }
-    buildToolsVersion '25.0.2'
 }
