@@ -1,35 +1,30 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.sothree.slidinguppanel/library/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.sothree.slidinguppanel/library)
 [![Badge](http://www.libtastic.com/static/osbadges/30.png)](http://www.libtastic.com/technology/30/)
+[![GitHub license](https://img.shields.io/badge/license-Apache%20Version%202.0-blue.svg)](https://github.com/sbrukhanda/fragmentviewpager/blob/master/LICENSE.txt)
+[![Build Status](https://travis-ci.org/hannesa2/AndroidSlidingUpPanel.svg?branch=master)](https://travis-ci.org/hannesa2/mechanoid)
+[![](https://jitpack.io/v/hannesa2/AndroidSlidingUpPanel.svg)](https://jitpack.io/#hannesa2/mechanoid)
 
-**Note:** we are **not** actively responding to issues right now. If you find a bug, please submit a PR. 
+**Note:** because maintainer currently does not merge PR's, I collect some of them
 
 Android Sliding Up Panel
 =========================
 
 This library provides a simple way to add a draggable sliding up panel (popularized by Google Music and Google Maps) to your Android application.
 
-As seen in Umano Android App (now acquired by Dropbox):
-
-![SlidingUpPanelLayout](https://raw.github.com/umano/AndroidSlidingUpPanelDemo/master/slidinguppanel.png)
-
-### Known Uses in Popular Apps
-
-* [Soundcloud] (https://play.google.com/store/apps/details?id=com.soundcloud.android)
-* [Dropbox Paper] (https://play.google.com/store/apps/details?id=com.dropbox.paper)
-* [Snaptee] (https://play.google.com/store/apps/details?id=co.snaptee.android)
-
-If you are using the library and you would like to have your app listed, simply let us know.
-
 ### Importing the Library
 
 Simply add the following dependency to your `build.gradle` file to use the latest version:
 
+```Gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
 ```groovy
 dependencies {
-    repositories {
-        mavenCentral()
-    }
-    compile 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'com.github.hannesa2:AndroidSlidingUpPanel:3.5.0'
 }
 ```
 
@@ -119,27 +114,10 @@ public class NestedScrollableViewHelper extends ScrollableViewHelper {
 
 Once you define your helper, you can set it using `setScrollableViewHelper` on the sliding panel.
 
-### Implementation
-
-This library was initially based on the opened-sourced [SlidingPaneLayout](http://developer.android.com/reference/android/support/v4/widget/SlidingPaneLayout.html) component from the r13 of the Android Support Library. Thanks Android team!
-
-### Requirements
-
-Tested on Android 2.2+
-
-### Other Contributors
-
-* Nov 23, 15 - [@kiyeonk](https://github.com/kiyeonk) - umanoScrollInterpolator support
-* Jan 21, 14 - ChaYoung You ([@yous](https://github.com/yous)) - Slide from the top support
-* Aug 20, 13 - [@gipi](https://github.com/gipi) - Android Studio Support
-* Jul 24, 13 - Philip Schiffer ([@hameno](https://github.com/hameno)) - Maven Support
-* Oct 20, 13 - Irina Preșa ([@iriina](https://github.com/iriina)) - Anchor Support
-* Dec 1, 13 - ([@youchy](https://github.com/youchy)) - XML Attributes Support
-* Dec 22, 13 - Vladimir Mironov ([@MironovNsk](https://github.com/nsk-mironov)) - Custom Expanded Panel Height
-
-If you have an awesome pull request, send it over!
-
 ### Changelog
+
+* 3.5.0
+  * Android P
 
 * 3.4.0
   * Use the latest support library 26 and update the min version to 14.
