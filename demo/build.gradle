@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion defaultBuildToolsVersion
 
     lintOptions {
         abortOnError false
@@ -15,7 +14,7 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:support-v4:${defaultSupportLibVersion}"
-    implementation "com.android.support:appcompat-v7:${defaultSupportLibVersion}"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation project(':library')
 }

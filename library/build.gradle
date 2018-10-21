@@ -12,14 +12,13 @@ dependencies {
 
 android {
     compileSdkVersion project.hasProperty("defaultCompileSdkVersion") ? defaultCompileSdkVersion : 28
-    buildToolsVersion project.hasProperty("defaultBuildToolsVersion") ? defaultBuildToolsVersion : "27.0.1"
 
     defaultConfig {
         minSdkVersion defaultMinSdkVersion
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" // For Instrumentation Unit testing
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner" // For Instrumentation Unit testing
     }
 
     lintOptions {
