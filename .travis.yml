@@ -5,6 +5,8 @@ sudo: true
 jdk:
   - oraclejdk8
 
+dist : trusty  # otherwise you run into /home/travis/.travis/functions: line 104: sdkmanager: command not found
+
 branches:
   only:
     - master
