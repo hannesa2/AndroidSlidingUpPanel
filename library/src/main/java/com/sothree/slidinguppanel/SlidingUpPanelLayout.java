@@ -45,6 +45,11 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private static final float DEFAULT_ANCHOR_POINT = 1.0f; // In relative %
 
     /**
+     * Default maximum sliding offset
+     */
+    private static final float DEFAULT_MAX_SLIDING_OFFSET = 1.0f;
+
+    /**
      * Default initial state for the component
      */
     private static PanelState DEFAULT_SLIDE_STATE = PanelState.COLLAPSED;
@@ -194,6 +199,11 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * How far in pixels the slideable panel may move.
      */
     private int mSlideRange;
+
+    /**
+     * Maximum sliding panel movement in expanded state
+     */
+    private float mMaxSlideOffset = DEFAULT_MAX_SLIDING_OFFSET;
 
     /**
      * An anchor point where the panel can stop during sliding
@@ -553,7 +563,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 public void onClick(View v) {
                     if (!isEnabled() || !isTouchEnabled()) return;
                     if (mSlideState != PanelState.EXPANDED && mSlideState != PanelState.ANCHORED) {
-                        if (mAnchorPoint < 1.0f) {
+                        if (mAnchorPoint < DEFAULT_ANCHOR_POINT ) {
                             setPanelState(PanelState.ANCHORED);
                         } else {
                             setPanelState(PanelState.EXPANDED);
@@ -610,6 +620,19 @@ public class SlidingUpPanelLayout extends ViewGroup {
             mAnchorPoint = anchorPoint;
             mFirstLayout = true;
             requestLayout();
+        }
+    }
+
+    /**
+     * Set maximum slide offset to move sliding layout in expanded state
+     *  The value must be in range of [ 0, 1]
+     * @param offset max sliding offset
+     */
+    public void setMaxSlideOffset( float offset )
+    {
+        if( offset <= DEFAULT_MAX_SLIDING_OFFSET )
+        {
+            mMaxSlideOffset = offset;
         }
     }
 
@@ -833,7 +856,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         if (mFirstLayout) {
             switch (mSlideState) {
                 case EXPANDED:
-                    mSlideOffset = 1.0f;
+                    mSlideOffset = mMaxSlideOffset;
                     break;
                 case ANCHORED:
                     mSlideOffset = mAnchorPoint;
@@ -1029,7 +1052,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
             } else if (dy * (mIsSlidingUp ? 1 : -1) < 0) { // Expanding
                 // Is the panel less than fully expanded?
                 // Then we'll handle the drag here.
-                if (mSlideOffset < 1.0f) {
+                if (mSlideOffset < mMaxSlideOffset ) {
                     mIsScrollableViewHandlingTouch = false;
                     return this.onTouchEvent(ev);
                 }
@@ -1140,7 +1163,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                     smoothSlideTo(0, 0);
                     break;
                 case EXPANDED:
-                    smoothSlideTo(1.0f, 0);
+                    smoothSlideTo( mMaxSlideOffset, 0);
                     break;
                 case HIDDEN:
                     int newTop = computePanelTopPosition(0.0f) + (mIsSlidingUp ? +mPanelHeight : -mPanelHeight);
@@ -1420,7 +1443,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 target = computePanelTopPosition(mAnchorPoint);
             } else if (direction > 0 && mSlideOffset > mAnchorPoint) {
                 // swipe up past anchor -> expand
-                target = computePanelTopPosition(1.0f);
+                target = computePanelTopPosition( mMaxSlideOffset );
             } else if (direction < 0 && mSlideOffset >= mAnchorPoint) {
                 // swipe down -> collapse and stop at anchor point
                 target = computePanelTopPosition(mAnchorPoint);
@@ -1429,7 +1452,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 target = computePanelTopPosition(0.0f);
             } else if (mSlideOffset >= (1.f + mAnchorPoint) / 2) {
                 // zero velocity, and far enough from anchor point => expand to the top
-                target = computePanelTopPosition(1.0f);
+                target = computePanelTopPosition(mMaxSlideOffset);
             } else if (mSlideOffset >= mAnchorPoint / 2) {
                 // zero velocity, and close enough to anchor point => go to anchor
                 target = computePanelTopPosition(mAnchorPoint);
@@ -1452,7 +1475,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
             final int collapsedTop = computePanelTopPosition(0.f);
-            final int expandedTop = computePanelTopPosition(1.0f);
+            final int expandedTop = computePanelTopPosition( mMaxSlideOffset );
             if (mIsSlidingUp) {
                 return Math.min(Math.max(top, expandedTop), collapsedTop);
             } else {
