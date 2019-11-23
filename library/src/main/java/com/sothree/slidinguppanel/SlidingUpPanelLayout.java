@@ -10,9 +10,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.MotionEventCompat;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +19,9 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 
 import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxy;
 import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxyFactory;
@@ -563,7 +563,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 public void onClick(View v) {
                     if (!isEnabled() || !isTouchEnabled()) return;
                     if (mSlideState != PanelState.EXPANDED && mSlideState != PanelState.ANCHORED) {
-                        if (mAnchorPoint < DEFAULT_ANCHOR_POINT ) {
+                        if (mAnchorPoint < DEFAULT_ANCHOR_POINT) {
                             setPanelState(PanelState.ANCHORED);
                         } else {
                             setPanelState(PanelState.EXPANDED);
@@ -625,13 +625,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     /**
      * Set maximum slide offset to move sliding layout in expanded state
-     *  The value must be in range of [ 0, 1]
+     * The value must be in range of [ 0, 1]
+     *
      * @param offset max sliding offset
      */
-    public void setMaxSlideOffset( float offset )
-    {
-        if( offset <= DEFAULT_MAX_SLIDING_OFFSET )
-        {
+    public void setMaxSlideOffset(float offset) {
+        if (offset <= DEFAULT_MAX_SLIDING_OFFSET) {
             mMaxSlideOffset = offset;
         }
     }
@@ -1052,7 +1051,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
             } else if (dy * (mIsSlidingUp ? 1 : -1) < 0) { // Expanding
                 // Is the panel less than fully expanded?
                 // Then we'll handle the drag here.
-                if (mSlideOffset < mMaxSlideOffset ) {
+                if (mSlideOffset < mMaxSlideOffset) {
                     mIsScrollableViewHandlingTouch = false;
                     return this.onTouchEvent(ev);
                 }
@@ -1163,7 +1162,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                     smoothSlideTo(0, 0);
                     break;
                 case EXPANDED:
-                    smoothSlideTo( mMaxSlideOffset, 0);
+                    smoothSlideTo(mMaxSlideOffset, 0);
                     break;
                 case HIDDEN:
                     int newTop = computePanelTopPosition(0.0f) + (mIsSlidingUp ? +mPanelHeight : -mPanelHeight);
@@ -1443,7 +1442,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 target = computePanelTopPosition(mAnchorPoint);
             } else if (direction > 0 && mSlideOffset > mAnchorPoint) {
                 // swipe up past anchor -> expand
-                target = computePanelTopPosition( mMaxSlideOffset );
+                target = computePanelTopPosition(mMaxSlideOffset);
             } else if (direction < 0 && mSlideOffset >= mAnchorPoint) {
                 // swipe down -> collapse and stop at anchor point
                 target = computePanelTopPosition(mAnchorPoint);
@@ -1475,7 +1474,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
             final int collapsedTop = computePanelTopPosition(0.f);
-            final int expandedTop = computePanelTopPosition( mMaxSlideOffset );
+            final int expandedTop = computePanelTopPosition(mMaxSlideOffset);
             if (mIsSlidingUp) {
                 return Math.min(Math.max(top, expandedTop), collapsedTop);
             } else {
