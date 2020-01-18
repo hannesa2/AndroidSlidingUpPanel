@@ -38,7 +38,7 @@ public class DemoActivity extends AppCompatActivity {
 
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
 
-        ListView lv = (ListView) findViewById(R.id.list);
+        ListView lv = findViewById(R.id.list);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,14 +76,14 @@ public class DemoActivity extends AppCompatActivity {
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                your_array_list );
+                your_array_list);
 
         lv.setAdapter(arrayAdapter);
 
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mLayout = findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -102,9 +102,9 @@ public class DemoActivity extends AppCompatActivity {
             }
         });
 
-        TextView t = (TextView) findViewById(R.id.name);
+        TextView t = findViewById(R.id.name);
         t.setText(Html.fromHtml(getString(R.string.hello)));
-        Button f = (Button) findViewById(R.id.follow);
+        Button f = findViewById(R.id.follow);
         f.setText(Html.fromHtml(getString(R.string.follow)));
         f.setMovementMethod(LinkMovementMethod.getInstance());
         f.setOnClickListener(new OnClickListener() {

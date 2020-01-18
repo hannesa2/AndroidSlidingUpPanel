@@ -10,6 +10,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,9 +21,6 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
-
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 
 import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxy;
 import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxyFactory;
@@ -300,16 +299,17 @@ public class SlidingUpPanelLayout extends ViewGroup {
         if (attrs != null) {
             TypedArray defAttrs = context.obtainStyledAttributes(attrs, DEFAULT_ATTRS);
 
-            if (defAttrs != null) {
+            try {
                 int gravity = defAttrs.getInt(0, Gravity.NO_GRAVITY);
                 setGravity(gravity);
+            } finally {
                 defAttrs.recycle();
             }
 
 
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingUpPanelLayout);
 
-            if (ta != null) {
+            try {
                 mPanelHeight = ta.getDimensionPixelSize(R.styleable.SlidingUpPanelLayout_umanoPanelHeight, -1);
                 mShadowHeight = ta.getDimensionPixelSize(R.styleable.SlidingUpPanelLayout_umanoShadowHeight, -1);
                 mParallaxOffset = ta.getDimensionPixelSize(R.styleable.SlidingUpPanelLayout_umanoParallaxOffset, -1);
@@ -331,6 +331,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 if (interpolatorResId != -1) {
                     scrollerInterpolator = AnimationUtils.loadInterpolator(context, interpolatorResId);
                 }
+            } finally {
                 ta.recycle();
             }
         }
@@ -511,22 +512,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
         mMinFlingVelocity = val;
     }
 
-    /**
-     * Adds a panel slide listener
-     *
-     * @param listener
-     */
     public void addPanelSlideListener(PanelSlideListener listener) {
         synchronized (mPanelSlideListeners) {
             mPanelSlideListeners.add(listener);
         }
     }
 
-    /**
-     * Removes a panel slide listener
-     *
-     * @param listener
-     */
     public void removePanelSlideListener(PanelSlideListener listener) {
         synchronized (mPanelSlideListeners) {
             mPanelSlideListeners.remove(listener);
@@ -538,7 +529,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * triggered if the panel is in a collapsed or a hidden position. If the on click listener is
      * not provided, the clicks on the dimmed area are passed through to the main layout.
      *
-     * @param listener
      */
     public void setFadeOnClickListener(View.OnClickListener listener) {
         mFadeOnClickListener = listener;
@@ -602,8 +592,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     /**
      * Sets the current scrollable view helper. See ScrollableViewHelper description for details.
-     *
-     * @param helper
      */
     public void setScrollableViewHelper(ScrollableViewHelper helper) {
         mScrollableViewHelper = helper;
@@ -647,7 +635,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Sets whether or not the panel overlays the content
      *
-     * @param overlayed
      */
     public void setOverlayed(boolean overlayed) {
         mOverlayContent = overlayed;
@@ -663,7 +650,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Sets whether or not the main content is clipped to the top of the panel
      *
-     * @param clip
      */
     public void setClipPanel(boolean clip) {
         mClipPanel = clip;
@@ -1519,12 +1505,11 @@ public class SlidingUpPanelLayout extends ViewGroup {
             super(c, attrs);
 
             final TypedArray ta = c.obtainStyledAttributes(attrs, ATTRS);
-            if (ta != null) {
+            try {
                 this.weight = ta.getFloat(0, 0);
+            } finally {
                 ta.recycle();
             }
-
-
         }
     }
 }
