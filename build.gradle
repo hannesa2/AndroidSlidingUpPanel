@@ -24,5 +24,4 @@ ext {
     defaultCompileSdkVersion = 29
     defaultMinSdkVersion = 16
     defaultTargetSdkVersion = 29
-    defaultSupportLibVersion = "28.0.0"
 }
