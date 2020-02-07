@@ -10,8 +10,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +19,9 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 
 import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxy;
 import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxyFactory;
@@ -528,7 +529,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * Provides an on click for the portion of the main view that is dimmed. The listener is not
      * triggered if the panel is in a collapsed or a hidden position. If the on click listener is
      * not provided, the clicks on the dimmed area are passed through to the main layout.
-     *
      */
     public void setFadeOnClickListener(View.OnClickListener listener) {
         mFadeOnClickListener = listener;
@@ -634,7 +634,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     /**
      * Sets whether or not the panel overlays the content
-     *
      */
     public void setOverlayed(boolean overlayed) {
         mOverlayContent = overlayed;
@@ -649,7 +648,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     /**
      * Sets whether or not the main content is clipped to the top of the panel
-     *
      */
     public void setClipPanel(boolean clip) {
         mClipPanel = clip;

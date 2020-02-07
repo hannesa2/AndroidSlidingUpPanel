@@ -1,9 +1,10 @@
 package com.sothree.slidinguppanel;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Helper class for determining the current scroll positions for scrollable views. Currently works
@@ -18,7 +19,7 @@ public class ScrollableViewHelper {
      * view handle the scrolling
      *
      * @param scrollableView the scrollable view
-     * @param isSlidingUp whether or not the panel is sliding up or down
+     * @param isSlidingUp    whether or not the panel is sliding up or down
      * @return the scroll position
      */
     public int getScrollableViewScrollPosition(View scrollableView, boolean isSlidingUp) {

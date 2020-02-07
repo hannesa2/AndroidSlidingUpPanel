@@ -2,8 +2,9 @@ package com.sothree.slidinguppanel.canvassaveproxy;
 
 import android.graphics.Canvas;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.P)
 class AndroidPCanvasSaveProxy implements CanvasSaveProxy {

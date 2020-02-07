@@ -6,6 +6,6 @@
     <string name="action_show">Show Panel</string>
     <string name="action_anchor_enable">Enable Anchor Point</string>
     <string name="action_anchor_disable">Disable Anchor Point</string>
-    <string name="hello"><![CDATA[<b>The Awesome Sliding Up Panel</b><br/> Brought to you by<br/><a href="http://umanoapp.com">http://umanoapp.com</a>]]></string>
-    <string name="follow"><![CDATA[Follow us<br/>on <a href="http://twitter.com/umanoapp">Twitter</a>]]></string>
+    <string name="hello"><![CDATA[<b>The Awesome Sliding Up Panel</b><br/> Brought to you by<br/><a href="https://github.com/hannesa2/AndroidSlidingUpPanel">https://github.com/hannesa2/AndroidSlidingUpPanel</a>]]></string>
+    <string name="follow"><![CDATA[Follow it<br/>on <a href="https://github.com/hannesa2/AndroidSlidingUpPanel">Github</a>]]></string>
 </resources>

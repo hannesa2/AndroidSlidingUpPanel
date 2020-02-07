@@ -1,14 +1,15 @@
-[![Badge](http://www.libtastic.com/static/osbadges/30.png)](http://www.libtastic.com/technology/30/)
 [![GitHub license](https://img.shields.io/badge/license-Apache%20Version%202.0-blue.svg)](https://github.com/sbrukhanda/fragmentviewpager/blob/master/LICENSE.txt)
 [![Build Status](https://travis-ci.org/hannesa2/AndroidSlidingUpPanel.svg?branch=master)](https://travis-ci.org/hannesa2/AndroidSlidingUpPanel)
 [![](https://jitpack.io/v/hannesa2/AndroidSlidingUpPanel.svg)](https://jitpack.io/#hannesa2/AndroidSlidingUpPanel)
 
-**Note:** because maintainer currently does not merge PR's, I collect some of them
+**Note:** Because origin maintainer currently does not merge PR's, I collect some of them in this repository
 
 Android Sliding Up Panel
 =========================
 
 This library provides a simple way to add a draggable sliding up panel (popularized by Google Music and Google Maps) to your Android application.
+
+![Demo](https://github.com/hannesa2/AndroidSlidingUpPanel/blob/master/SlidingUp.gif)
 
 ### Importing the Library
 
@@ -116,42 +117,6 @@ public class NestedScrollableViewHelper extends ScrollableViewHelper {
 ```
 
 Once you define your helper, you can set it using `setScrollableViewHelper` on the sliding panel.
-
-### Changelog
-
-* 3.5.0
-  * Android P
-
-* 3.4.0
-  * Use the latest support library 26 and update the min version to 14.
-  * Bug fixes
-* 3.3.1
-  * Lots of bug fixes from various pull requests.
-  * Removed the nineoldandroids dependency. Use ViewCompat instead.
-* 3.3.0
-  * You can now set a `FadeOnClickListener`, for when the faded area of the main content is clicked.
-  * `PanelSlideListener` has a new format (multiple of them can be set now
-  * Fixed the setTouchEnabled bug
-* 3.2.1
-  * Add support for `umanoScrollInterpolator`
-  * Add support for percentage-based sliding panel height using `layout_weight` attribute
-  * Add `ScrollableViewHelper` to allow users extend support for new types of scrollable views.
-* 3.2.0
-  * Rename `umanoParalaxOffset` to `umanoParallaxOffset`
-  * RecyclerView support.
-* 3.1.0
-  * Added `umanoScrollableView` to supported nested scrolling in children (only ScrollView and ListView are supported for now)
-* 3.0.0
-  * Added `umano` prefix for all attributes
-  * Added `clipPanel` attribute for supporting transparent panels in non-overlay mode.
-  * `setEnabled(false)` - now completely disables the sliding panel (touch and programmatic sliding)
-  * `setTouchEnabled(false)` - disables panel's touch responsiveness (drag and click), you can still control the panel programatically
-  * `getPanelState` - is now the only method to get the current panel state
-  * `setPanelState` - is now the only method to modify the panel state from code
-* 2.0.2 - Allow `wrap_content` for sliding view height attribute. Bug fixes. 
-* 2.0.1 - Bug fixes. 
-* 2.0.0 - Cleaned up various public method calls. Added animated `showPanel`/`hidePanel` methods. 
-* 1.0.1 - Initial Release 
 
 ### Licence
 
