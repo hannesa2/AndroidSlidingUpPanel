@@ -724,8 +724,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     private static boolean hasOpaqueBackground(View v) {
-        final Drawable bg = v.getBackground();
-        return bg != null && bg.getOpacity() == PixelFormat.OPAQUE;
+        final Drawable background = v.getBackground();
+        return background != null && background.getOpacity() == PixelFormat.OPAQUE;
     }
 
     @Override
