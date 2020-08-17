@@ -167,6 +167,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
      */
     private View mSlideableView;
 
+    public View getSlideableView() {
+        return mSlideableView;
+    }
+
     /*
      * The main view
      */
