@@ -30,6 +30,7 @@ import com.sothree.slidinguppanel.library.R;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@SuppressWarnings("unused")
 public class SlidingUpPanelLayout extends ViewGroup {
 
     private static final String TAG = SlidingUpPanelLayout.class.getSimpleName();
@@ -166,7 +167,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
      */
     private View mSlideableView;
 
-    /**
+    /*
      * The main view
      */
     private View mMainView;
