@@ -24,8 +24,7 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
-        val lv = findViewById<ListView>(R.id.list)
-        lv.onItemClickListener = OnItemClickListener { parent, view, position, id -> Toast.makeText(this@DemoActivity, "onItemClick", Toast.LENGTH_SHORT).show() }
+        listView.onItemClickListener = OnItemClickListener { parent, view, position, id -> Toast.makeText(this@DemoActivity, "onItemClick", Toast.LENGTH_SHORT).show() }
         val yourArrayList = Arrays.asList(
                 "This",
                 "Is",
@@ -60,8 +59,7 @@ class DemoActivity : AppCompatActivity() {
                 this,
                 android.R.layout.simple_list_item_1,
                 yourArrayList)
-        lv.adapter = arrayAdapter
-        sliding_layout
+        listView.adapter = arrayAdapter
         sliding_layout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View, slideOffset: Float) {
                 Log.i(TAG, "onPanelSlide, offset $slideOffset")
