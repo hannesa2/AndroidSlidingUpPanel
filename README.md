@@ -25,7 +25,7 @@ allprojects {
 ```
 ```groovy
 dependencies {
-    implementation 'com.github.hannesa2:AndroidSlidingUpPanel:4.2.0' // Android X
+    implementation 'com.github.hannesa2:AndroidSlidingUpPanel:$latest_version' // Android X
 
     // or
     implementation 'com.github.hannesa2:AndroidSlidingUpPanel:3.5.0' // supportLib
