@@ -10,6 +10,8 @@ buildscript {
     }
 }
 
+println "I use Java ${JavaVersion.current()}"
+
 allprojects {
     repositories {
         jcenter()
