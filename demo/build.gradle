@@ -3,15 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion defaultCompileSdkVersion
+    compileSdkVersion 30
 
     lintOptions {
         abortOnError false
     }
 
     defaultConfig {
-        minSdkVersion defaultMinSdkVersion
-        targetSdkVersion defaultTargetSdkVersion
+        minSdkVersion 16
+        targetSdkVersion 30
     }
 }
 
