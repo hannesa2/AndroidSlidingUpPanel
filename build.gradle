@@ -23,9 +23,3 @@ allprojects {
         options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
     }
 }
-
-ext {
-    defaultCompileSdkVersion = 29
-    defaultMinSdkVersion = 16
-    defaultTargetSdkVersion = 29
-}
