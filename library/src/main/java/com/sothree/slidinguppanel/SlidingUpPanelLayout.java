@@ -23,8 +23,8 @@ import android.view.animation.Interpolator;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
-import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxy;
-import com.sothree.slidinguppanel.canvassaveproxy.CanvasSaveProxyFactory;
+import com.sothree.slidinguppanel.canvasSaveProxy.CanvasSaveProxy;
+import com.sothree.slidinguppanel.canvasSaveProxy.CanvasSaveProxyFactory;
 import com.sothree.slidinguppanel.library.R;
 
 import java.util.List;
