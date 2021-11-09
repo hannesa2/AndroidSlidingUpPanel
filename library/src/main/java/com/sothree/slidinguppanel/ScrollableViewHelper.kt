@@ -1,9 +1,6 @@
 package com.sothree.slidinguppanel
 
 import android.view.View
-import android.widget.ListView
-import android.widget.ScrollView
-import androidx.recyclerview.widget.RecyclerView
 import com.sothree.slidinguppanel.positionhelper.ScrollPositionHelper
 import com.sothree.slidinguppanel.positionhelper.impl.ListViewScrollPositionHelper
 import com.sothree.slidinguppanel.positionhelper.impl.RecyclerViewScrollPositionHelper

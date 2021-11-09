@@ -2,7 +2,7 @@ package com.sothree.slidinguppanel.positionhelper
 
 import android.view.View
 
-interface ScrollPositionHelper{
+interface ScrollPositionHelper {
 
     /**
      * is support to calculate scroll position on this view?
