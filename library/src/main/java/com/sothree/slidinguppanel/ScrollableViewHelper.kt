@@ -4,6 +4,10 @@ import android.view.View
 import android.widget.ListView
 import android.widget.ScrollView
 import androidx.recyclerview.widget.RecyclerView
+import com.sothree.slidinguppanel.positionhelper.ScrollPositionHelper
+import com.sothree.slidinguppanel.positionhelper.impl.ListViewScrollPositionHelper
+import com.sothree.slidinguppanel.positionhelper.impl.RecyclerViewScrollPositionHelper
+import com.sothree.slidinguppanel.positionhelper.impl.ScrollViewScrollPositionHelper
 
 /**
  * Helper class for determining the current scroll positions for scrollable views. Currently works
@@ -11,6 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
  * for other views.
  */
 class ScrollableViewHelper {
+
+    private var positionHelpers: MutableList<ScrollPositionHelper> = mutableListOf(
+        ListViewScrollPositionHelper(),
+        ScrollViewScrollPositionHelper(),
+        RecyclerViewScrollPositionHelper()
+    )
+
     /**
      * Returns the current scroll position of the scrollable view. If this method returns zero or
      * less, it means at the scrollable view is in a position such as the panel should handle
@@ -22,39 +33,21 @@ class ScrollableViewHelper {
      * @return the scroll position
      */
     fun getScrollableViewScrollPosition(scrollableView: View?, isSlidingUp: Boolean): Int {
-        if (scrollableView == null) return 0
-        return if (scrollableView is ScrollView) {
-            if (isSlidingUp) {
-                scrollableView.getScrollY()
-            } else {
-                val child = scrollableView.getChildAt(0)
-                child.bottom - (scrollableView.height + scrollableView.scrollY)
+        scrollableView?.let {
+            for (helper in positionHelpers) {
+                if (helper.isSupport(scrollableView)) {
+                    helper.getPosition(scrollableView, isSlidingUp)
+                }
             }
-        } else if (scrollableView is ListView && scrollableView.childCount > 0) {
-            if (scrollableView.adapter == null) return 0
-            if (isSlidingUp) {
-                val firstChild = scrollableView.getChildAt(0)
-                // Approximate the scroll position based on the top child and the first visible item
-                scrollableView.firstVisiblePosition * firstChild.height - firstChild.top
-            } else {
-                val lastChild = scrollableView.getChildAt(scrollableView.childCount - 1)
-                // Approximate the scroll position based on the bottom child and the last visible item
-                (scrollableView.adapter.count - scrollableView.lastVisiblePosition - 1) * lastChild.height + lastChild.bottom - scrollableView.bottom
-            }
-        } else if (scrollableView is RecyclerView && scrollableView.childCount > 0) {
-            val lm = scrollableView.layoutManager
-            if (scrollableView.adapter == null) return 0
-            if (isSlidingUp) {
-                val firstChild = scrollableView.getChildAt(0)
-                // Approximate the scroll position based on the top child and the first visible item
-                scrollableView.getChildLayoutPosition(firstChild) * lm!!.getDecoratedMeasuredHeight(firstChild) - lm.getDecoratedTop(firstChild)
-            } else {
-                val lastChild = scrollableView.getChildAt(scrollableView.childCount - 1)
-                // Approximate the scroll position based on the bottom child and the last visible item
-                (scrollableView.adapter!!.itemCount - 1) * lm!!.getDecoratedMeasuredHeight(lastChild) + lm.getDecoratedBottom(lastChild) - scrollableView.bottom
-            }
-        } else {
-            0
         }
+        return 0
+    }
+
+    fun setPositionHelpers(helpers: MutableList<ScrollPositionHelper>) {
+        this.positionHelpers = helpers
+    }
+
+    fun addPositionHelpers(helper: ScrollPositionHelper) {
+        this.positionHelpers.add(helper)
     }
 }
