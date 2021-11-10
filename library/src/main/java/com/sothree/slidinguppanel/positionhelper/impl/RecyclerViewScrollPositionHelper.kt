@@ -2,9 +2,8 @@ package com.sothree.slidinguppanel.positionhelper.impl
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.sothree.slidinguppanel.positionhelper.ScrollPositionHelper
 
-open class RecyclerViewScrollPositionHelper: AbstractScrollPositionHelper<RecyclerView>() {
+open class RecyclerViewScrollPositionHelper : AbstractScrollPositionHelper<RecyclerView>() {
     override fun isSupport(view: View): Boolean {
         return view is RecyclerView && view.childCount > 0
     }

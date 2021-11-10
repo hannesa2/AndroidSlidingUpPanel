@@ -2,9 +2,8 @@ package com.sothree.slidinguppanel.positionhelper.impl
 
 import android.view.View
 import android.widget.ScrollView
-import com.sothree.slidinguppanel.positionhelper.ScrollPositionHelper
 
-open class ScrollViewScrollPositionHelper: AbstractScrollPositionHelper<ScrollView>() {
+open class ScrollViewScrollPositionHelper : AbstractScrollPositionHelper<ScrollView>() {
     override fun isSupport(view: View): Boolean {
         return view is ScrollView
     }

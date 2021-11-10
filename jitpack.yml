@@ -1,3 +1,4 @@
+jdk:
+ - openjdk11
 install:
- - ./gradlew :moka:build :moka:publishToMavenLocal -x :moka:test
- - find . -name "*.aar"
+ - ./gradlew :library:build :library:publishToMavenLocal -x :library:test

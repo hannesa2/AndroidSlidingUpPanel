@@ -2,9 +2,8 @@ package com.sothree.slidinguppanel.positionhelper.impl
 
 import android.view.View
 import android.widget.ListView
-import com.sothree.slidinguppanel.positionhelper.ScrollPositionHelper
 
-open class ListViewScrollPositionHelper: AbstractScrollPositionHelper<ListView>() {
+open class ListViewScrollPositionHelper : AbstractScrollPositionHelper<ListView>() {
     override fun isSupport(view: View): Boolean {
         return view is ListView && view.childCount > 0
     }

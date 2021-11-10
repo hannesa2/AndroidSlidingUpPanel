@@ -24,41 +24,43 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
-        listView.onItemClickListener = OnItemClickListener { parent, view, position, id -> Toast.makeText(this@DemoActivity, "onItemClick", Toast.LENGTH_SHORT).show() }
+        listView.onItemClickListener =
+            OnItemClickListener { parent, view, position, id -> Toast.makeText(this@DemoActivity, "onItemClick", Toast.LENGTH_SHORT).show() }
         val yourArrayList = Arrays.asList(
-                "This",
-                "Is",
-                "An",
-                "Example",
-                "ListView",
-                "That",
-                "You",
-                "Can",
-                "Scroll",
-                ".",
-                "It",
-                "Shows",
-                "How",
-                "Any",
-                "Scrollable",
-                "View",
-                "Can",
-                "Be",
-                "Included",
-                "As",
-                "A",
-                "Child",
-                "Of",
-                "SlidingUpPanelLayout"
+            "This",
+            "Is",
+            "An",
+            "Example",
+            "ListView",
+            "That",
+            "You",
+            "Can",
+            "Scroll",
+            ".",
+            "It",
+            "Shows",
+            "How",
+            "Any",
+            "Scrollable",
+            "View",
+            "Can",
+            "Be",
+            "Included",
+            "As",
+            "A",
+            "Child",
+            "Of",
+            "SlidingUpPanelLayout"
         )
 
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
         val arrayAdapter = ArrayAdapter(
-                this,
-                android.R.layout.simple_list_item_1,
-                yourArrayList)
+            this,
+            android.R.layout.simple_list_item_1,
+            yourArrayList
+        )
         listView.adapter = arrayAdapter
         sliding_layout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View, slideOffset: Float) {
