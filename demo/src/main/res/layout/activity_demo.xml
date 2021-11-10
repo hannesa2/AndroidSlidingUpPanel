@@ -9,7 +9,8 @@
     sothree:umanoPanelHeight="68dp"
     sothree:umanoParallaxOffset="100dp"
     sothree:umanoScrollableView="@+id/listView"
-    sothree:umanoShadowHeight="4dp">
+    sothree:umanoShadowHeight="50dp"
+    sothree:umanoAboveShadowStyle="@drawable/my_above_shadow">
 
     <!-- MAIN CONTENT -->
     <FrameLayout
