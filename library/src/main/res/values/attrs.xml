@@ -20,6 +20,8 @@
         </attr>
         <attr name="umanoScrollInterpolator" format="reference" />
         <attr name="umanoMaxSlidingOffset" format="float" />
+        <attr name="umanoAboveShadowStyle" format="reference" />
+        <attr name="umanoBelowShadowStyle" format="reference" />
     </declare-styleable>
 
 </resources>

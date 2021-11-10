@@ -226,6 +226,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
      */
     private boolean mIsTouchEnabled;
 
+    /**
+     * Shadow style which will replace default if provided
+     */
+    private int mAboveShadowResId;
+    private int mBelowShadowResId;
+
     private float mPrevMotionX;
     private float mPrevMotionY;
     private float mInitialMotionX;
@@ -326,6 +332,9 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 mDragViewResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoDragView, -1);
                 mScrollableViewResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollableView, -1);
 
+                mAboveShadowResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoAboveShadowStyle, -1);
+                mBelowShadowResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoBelowShadowStyle, -1);
+
                 mOverlayContent = ta.getBoolean(R.styleable.SlidingUpPanelLayout_umanoOverlay, DEFAULT_OVERLAY_FLAG);
                 mClipPanel = ta.getBoolean(R.styleable.SlidingUpPanelLayout_umanoClipPanel, DEFAULT_CLIP_PANEL_FLAG);
 
@@ -357,9 +366,17 @@ public class SlidingUpPanelLayout extends ViewGroup {
         // If the shadow height is zero, don't show the shadow
         if (mShadowHeight > 0) {
             if (mIsSlidingUp) {
-                mShadowDrawable = ContextCompat.getDrawable(context, R.drawable.above_shadow);
+                if (mAboveShadowResId == -1) {
+                    mShadowDrawable = ContextCompat.getDrawable(context, R.drawable.above_shadow);
+                } else {
+                    mShadowDrawable = ContextCompat.getDrawable(context, mAboveShadowResId);
+                }
             } else {
-                mShadowDrawable = ContextCompat.getDrawable(context, R.drawable.below_shadow);
+                if (mBelowShadowResId == -1) {
+                    mShadowDrawable = ContextCompat.getDrawable(context, R.drawable.below_shadow);
+                } else {
+                    mShadowDrawable = ContextCompat.getDrawable(context, mBelowShadowResId);
+                }
             }
         } else {
             mShadowDrawable = null;
