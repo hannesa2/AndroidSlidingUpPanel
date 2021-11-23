@@ -1,12 +1,12 @@
 package com.sothree.slidinguppanel.canvasSaveProxy
 
+import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.util.Log
 import java.lang.reflect.Field
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
-@Deprecated("")
 internal class LegacyCanvasSaveProxy(private var canvas: Canvas) : CanvasSaveProxy {
     private val saveMethod: Method
     private val clipSaveFlag: Int
@@ -26,6 +26,7 @@ internal class LegacyCanvasSaveProxy(private var canvas: Canvas) : CanvasSavePro
     }
 
     private val clipSaveFlagValue: Int
+        @SuppressLint("DiscouragedPrivateApi")
         get() {
             val constantField: Field
             return try {
