@@ -13,8 +13,8 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
+import com.sothree.slidinguppanel.PanelSlideListener
+import com.sothree.slidinguppanel.PanelState
 import kotlinx.android.synthetic.main.activity_demo.*
 import java.util.*
 
@@ -62,7 +62,7 @@ class DemoActivity : AppCompatActivity() {
             yourArrayList
         )
         listView.adapter = arrayAdapter
-        sliding_layout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
+        sliding_layout.addPanelSlideListener(object : PanelSlideListener {
             override fun onPanelSlide(panel: View, slideOffset: Float) {
                 Log.i(TAG, "onPanelSlide, offset $slideOffset")
             }
