@@ -1372,7 +1372,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
             return !mIsUnableToDrag && child == mSlideableView;
-
         }
 
         @Override
