@@ -53,7 +53,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     /**
      * Default initial state for the component
      */
-    private static PanelState DEFAULT_SLIDE_STATE = PanelState.COLLAPSED;
+    private static final PanelState DEFAULT_SLIDE_STATE = PanelState.COLLAPSED;
 
     /**
      * Default height of the shadow above the peeking out panel
@@ -176,17 +176,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
      */
     private View mMainView;
 
-    /**
-     * Current state of the slideable view.
-     */
-    public enum PanelState {
-        EXPANDED,
-        COLLAPSED,
-        ANCHORED,
-        HIDDEN,
-        DRAGGING
-    }
-
     private PanelState mSlideState = DEFAULT_SLIDE_STATE;
 
     /**
@@ -253,26 +242,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private boolean mFirstLayout = true;
 
     private final Rect mTmpRect = new Rect();
-
-    /**
-     * Listener for monitoring events about sliding panes.
-     */
-    public interface PanelSlideListener {
-        /**
-         * Called when a sliding pane's position changes.
-         *
-         * @param panel       The child view that was moved
-         * @param slideOffset The new offset of this sliding pane within its range, from 0-1
-         */
-        void onPanelSlide(View panel, float slideOffset);
-
-        /**
-         * Called when a sliding panel state changes
-         *
-         * @param panel The child view that was slid to an collapsed position
-         */
-        void onPanelStateChanged(View panel, PanelState previousState, PanelState newState);
-    }
 
     /**
      * No-op stubs for {@link PanelSlideListener}. If you only want to implement a subset
@@ -1403,7 +1372,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
             return !mIsUnableToDrag && child == mSlideableView;
-
         }
 
         @Override
