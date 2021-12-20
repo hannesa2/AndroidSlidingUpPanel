@@ -33,7 +33,7 @@ class ScrollableViewHelper {
         scrollableView?.let {
             for (helper in positionHelpers) {
                 if (helper.isSupport(scrollableView)) {
-                    helper.getPosition(scrollableView, isSlidingUp)
+                    return helper.getPosition(scrollableView, isSlidingUp)
                 }
             }
         }
