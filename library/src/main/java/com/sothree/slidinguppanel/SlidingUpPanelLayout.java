@@ -243,20 +243,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     private final Rect mTmpRect = new Rect();
 
-    /**
-     * No-op stubs for {@link PanelSlideListener}. If you only want to implement a subset
-     * of the listener methods you can extend this instead of implement the full interface.
-     */
-    public static class SimplePanelSlideListener implements PanelSlideListener {
-        @Override
-        public void onPanelSlide(View panel, float slideOffset) {
-        }
-
-        @Override
-        public void onPanelStateChanged(View panel, PanelState previousState, PanelState newState) {
-        }
-    }
-
     public SlidingUpPanelLayout(Context context) {
         this(context, null);
     }
@@ -769,7 +755,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         // First pass. Measure based on child LayoutParams width/height.
         for (int i = 0; i < childCount; i++) {
             final View child = getChildAt(i);
-            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            final LayoutWeightParams lp = (LayoutWeightParams) child.getLayoutParams();
 
             // We always measure the sliding panel in order to know it's height (needed for show panel)
             if (child.getVisibility() == GONE && i == 0) {
@@ -791,22 +777,22 @@ public class SlidingUpPanelLayout extends ViewGroup {
             }
 
             int childWidthSpec;
-            if (lp.width == LayoutParams.WRAP_CONTENT) {
+            if (lp.width == LayoutWeightParams.WRAP_CONTENT) {
                 childWidthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST);
-            } else if (lp.width == LayoutParams.MATCH_PARENT) {
+            } else if (lp.width == LayoutWeightParams.MATCH_PARENT) {
                 childWidthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
             } else {
                 childWidthSpec = MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY);
             }
 
             int childHeightSpec;
-            if (lp.height == LayoutParams.WRAP_CONTENT) {
+            if (lp.height == LayoutWeightParams.WRAP_CONTENT) {
                 childHeightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST);
             } else {
                 // Modify the height based on the weight.
                 if (lp.weight > 0 && lp.weight < 1) {
                     height = (int) (height * lp.weight);
-                } else if (lp.height != LayoutParams.MATCH_PARENT) {
+                } else if (lp.height != LayoutWeightParams.MATCH_PARENT) {
                     height = lp.height;
                 }
                 childHeightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
@@ -849,7 +835,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         for (int i = 0; i < childCount; i++) {
             final View child = getChildAt(i);
-            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            final LayoutWeightParams lp = (LayoutWeightParams) child.getLayoutParams();
 
             // Always layout the sliding view on the first layout
             if (child.getVisibility() == GONE && (i == 0 || mFirstLayout)) {
@@ -1179,18 +1165,18 @@ public class SlidingUpPanelLayout extends ViewGroup {
         dispatchOnPanelSlide(mSlideableView);
         // If the slide offset is negative, and overlay is not on, we need to increase the
         // height of the main content
-        LayoutParams lp = (LayoutParams) mMainView.getLayoutParams();
+        LayoutWeightParams lp = (LayoutWeightParams) mMainView.getLayoutParams();
         int defaultHeight = getHeight() - getPaddingBottom() - getPaddingTop() - (mSlideOffset < 0 ? 0 : mPanelHeight);
 
         if (mSlideOffset <= 0 && !mOverlayContent) {
             // expand the main view
             lp.height = mIsSlidingUp ? (newTop - getPaddingBottom()) : (getHeight() - getPaddingBottom() - mSlideableView.getMeasuredHeight() - newTop);
             if (lp.height == defaultHeight) {
-                lp.height = LayoutParams.MATCH_PARENT;
+                lp.height = LayoutWeightParams.MATCH_PARENT;
             }
             mMainView.requestLayout();
-        } else if (lp.height != LayoutParams.MATCH_PARENT && !mOverlayContent) {
-            lp.height = LayoutParams.MATCH_PARENT;
+        } else if (lp.height != LayoutWeightParams.MATCH_PARENT && !mOverlayContent) {
+            lp.height = LayoutWeightParams.MATCH_PARENT;
             mMainView.requestLayout();
         }
     }
@@ -1328,24 +1314,24 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
-        return new LayoutParams();
+        return new LayoutWeightParams();
     }
 
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
         return p instanceof MarginLayoutParams
-                ? new LayoutParams((MarginLayoutParams) p)
-                : new LayoutParams(p);
+                ? new LayoutWeightParams((MarginLayoutParams) p)
+                : new LayoutWeightParams(p);
     }
 
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
-        return p instanceof LayoutParams && super.checkLayoutParams(p);
+        return p instanceof LayoutWeightParams && super.checkLayoutParams(p);
     }
 
     @Override
     public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new LayoutParams(getContext(), attrs);
+        return new LayoutWeightParams(getContext(), attrs);
     }
 
     @Override
@@ -1459,47 +1445,4 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
     }
 
-    public static class LayoutParams extends ViewGroup.MarginLayoutParams {
-        private static final int[] ATTRS = new int[]{
-                android.R.attr.layout_weight
-        };
-
-        public float weight = 0;
-
-        public LayoutParams() {
-            super(MATCH_PARENT, MATCH_PARENT);
-        }
-
-        public LayoutParams(int width, int height) {
-            super(width, height);
-        }
-
-        public LayoutParams(int width, int height, float weight) {
-            super(width, height);
-            this.weight = weight;
-        }
-
-        public LayoutParams(android.view.ViewGroup.LayoutParams source) {
-            super(source);
-        }
-
-        public LayoutParams(MarginLayoutParams source) {
-            super(source);
-        }
-
-        public LayoutParams(LayoutParams source) {
-            super(source);
-        }
-
-        public LayoutParams(Context c, AttributeSet attrs) {
-            super(c, attrs);
-
-            final TypedArray ta = c.obtainStyledAttributes(attrs, ATTRS);
-            try {
-                this.weight = ta.getFloat(0, 0);
-            } finally {
-                ta.recycle();
-            }
-        }
-    }
 }
