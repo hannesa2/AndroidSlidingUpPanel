@@ -16,8 +16,6 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 31
-        versionCode = getGitCommitCount()
-        versionName = getTag()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,16 +24,6 @@ android {
         abortOnError false
     }
 
-}
-
-static def getGitCommitCount() {
-    def process = "git rev-list HEAD --count".execute()
-    return process.text.toInteger() + 21300106
-}
-
-static def getTag() {
-    def process = "git describe --abbrev=0".execute()
-    return process.text.toString().trim()
 }
 
 project.afterEvaluate {
