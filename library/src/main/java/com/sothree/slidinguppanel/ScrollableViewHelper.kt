@@ -11,7 +11,7 @@ import com.sothree.slidinguppanel.positionhelper.impl.ScrollViewScrollPositionHe
  * for ListView, ScrollView and RecyclerView, but the library users can override it to add support
  * for other views.
  */
-class ScrollableViewHelper {
+open class ScrollableViewHelper {
 
     private var positionHelpers: MutableList<ScrollPositionHelper> = mutableListOf(
         ListViewScrollPositionHelper(),
