@@ -29,7 +29,7 @@ open class ScrollableViewHelper {
      * @param isSlidingUp    whether or not the panel is sliding up or down
      * @return the scroll position
      */
-    fun getScrollableViewScrollPosition(scrollableView: View?, isSlidingUp: Boolean): Int {
+    open fun getScrollableViewScrollPosition(scrollableView: View?, isSlidingUp: Boolean): Int {
         scrollableView?.let {
             for (helper in positionHelpers) {
                 if (helper.isSupport(scrollableView)) {
