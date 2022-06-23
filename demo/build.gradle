@@ -7,13 +7,13 @@ plugins {
 android {
     compileSdkVersion 31
 
-    lintOptions {
-        abortOnError false
-    }
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 31
+    }
+    lint {
+        abortOnError false
     }
 }
 
