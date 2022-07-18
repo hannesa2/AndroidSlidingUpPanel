@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.util.AttributeSet
 
 class LayoutWeightParams : MarginLayoutParams {
-    @JvmField
     var weight = 0f
 
     constructor() : super(MATCH_PARENT, MATCH_PARENT)

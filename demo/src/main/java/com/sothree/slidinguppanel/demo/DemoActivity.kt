@@ -21,12 +21,12 @@ import java.util.*
 class DemoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDemoBinding
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
         binding.listView.onItemClickListener =
             OnItemClickListener { parent, view, position, id -> Toast.makeText(this@DemoActivity, "onItemClick", Toast.LENGTH_SHORT).show() }
@@ -75,7 +75,7 @@ class DemoActivity : AppCompatActivity() {
                 Log.i(TAG, "onPanelStateChanged $newState")
             }
         })
-        binding.slidingLayout.setFadeOnClickListener { binding.slidingLayout.setPanelState(PanelState.COLLAPSED) }
+        binding.slidingLayout.setFadeOnClickListener { binding.slidingLayout.panelState = PanelState.COLLAPSED }
         val textName = findViewById<TextView>(R.id.name)
         textName.text = Html.fromHtml(getString(R.string.hello))
         val followButton = findViewById<Button>(R.id.follow)
@@ -117,12 +117,12 @@ class DemoActivity : AppCompatActivity() {
                 return true
             }
             R.id.action_anchor -> {
-                if (binding.slidingLayout.anchorPoint == 1.0f) {
-                    binding.slidingLayout.anchorPoint = 0.7f
+                if (binding.slidingLayout.getAnchorPoint() == 1.0f) {
+                    binding.slidingLayout.setAnchorPoint(0.7f)
                     binding.slidingLayout.panelState = PanelState.ANCHORED
                     item.setTitle(R.string.action_anchor_disable)
                 } else {
-                    binding.slidingLayout.anchorPoint = 1.0f
+                    binding.slidingLayout.setAnchorPoint(1.0f)
                     binding.slidingLayout.panelState = PanelState.COLLAPSED
                     item.setTitle(R.string.action_anchor_enable)
                 }
