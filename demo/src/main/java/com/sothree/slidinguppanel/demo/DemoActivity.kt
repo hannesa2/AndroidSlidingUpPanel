@@ -71,7 +71,7 @@ class DemoActivity : AppCompatActivity() {
                 Log.i(TAG, "onPanelStateChanged $newState")
             }
         })
-        sliding_layout.setFadeOnClickListener { sliding_layout.setPanelState(PanelState.COLLAPSED) }
+        sliding_layout.setFadeOnClickListener { sliding_layout.panelState = PanelState.COLLAPSED }
         val textName = findViewById<TextView>(R.id.name)
         textName.text = Html.fromHtml(getString(R.string.hello))
         val followButton = findViewById<Button>(R.id.follow)
@@ -113,12 +113,12 @@ class DemoActivity : AppCompatActivity() {
                 return true
             }
             R.id.action_anchor -> {
-                if (sliding_layout.anchorPoint == 1.0f) {
-                    sliding_layout.anchorPoint = 0.7f
+                if (sliding_layout.getAnchorPoint() == 1.0f) {
+                    sliding_layout.setAnchorPoint(0.7f)
                     sliding_layout.panelState = PanelState.ANCHORED
                     item.setTitle(R.string.action_anchor_disable)
                 } else {
-                    sliding_layout.anchorPoint = 1.0f
+                    sliding_layout.setAnchorPoint(1.0f)
                     sliding_layout.panelState = PanelState.COLLAPSED
                     item.setTitle(R.string.action_anchor_enable)
                 }
