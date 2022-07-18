@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,8 +31,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @SuppressWarnings("unused")
 public class SlidingUpPanelLayout extends ViewGroup {
-
-    private static final String TAG = SlidingUpPanelLayout.class.getSimpleName();
 
     /**
      * Default peeking out panel height
@@ -1098,7 +1095,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         // Abort any running animation, to allow state change
         if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_SETTLING) {
-            Log.d(TAG, "View is settling. Aborting animation.");
             mDragHelper.abort();
         }
 
