@@ -19,17 +19,37 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+      - name: Find Tag
+        id: tagger
+        uses: jimschubert/query-tag-action@v2
+        with:
+          skip-unshallow: 'true'
+          commit-ish: HEAD
+      - name: Check pre-release
+        run: |
+          echo "tag=${{steps.tagger.outputs.tag}}"
+          if [[ ${{ steps.tagger.outputs.tag }} == *alpha* || ${{ steps.tagger.outputs.tag }} == *beta* ]]
+          then
+             prerelease=true
+          else
+             prerelease=false
+          fi
+          echo "PRE_RELEASE=$prerelease" >> $GITHUB_ENV
+          echo "prerelease=$prerelease"
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.1
+        uses: malinskiy/action-android/install-sdk@release/0.1.3
       - name: Build project
-        run: ./gradlew clean build
+        run: ./gradlew build
         env:
-          VERSION: ${{ github.ref }}
-      - run: |
-          assetsAAR=$(find . -name *release.aar | while read -r asset ; do echo "-a $asset" ; done)
-          VERSION=$(echo $VERSION | cut -d'/' -f3)
-          tag_name="${GITHUB_REF##*/}"
-          hub release create ${assetsAAR} -m "$tag_name" "$tag_name"
+          VERSION: ${{steps.tagger.outputs.tag}}
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{steps.tagger.outputs.tag}}
+          generate_release_notes: true
+          prerelease: ${{ env.PRE_RELEASE }}
+          name: ${{steps.tagger.outputs.tag}}
+          files: |
+            ./library/build/outputs/aar/library-release.aar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ github.ref }}
