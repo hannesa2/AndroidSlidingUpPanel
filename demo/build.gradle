@@ -1,12 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
 }
 
 android {
     compileSdkVersion 33
 
+    buildFeatures {
+        viewBinding = true
+    }
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 33
