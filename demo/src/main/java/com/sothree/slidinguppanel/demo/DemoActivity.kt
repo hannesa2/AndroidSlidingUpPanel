@@ -15,16 +15,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.sothree.slidinguppanel.PanelSlideListener
 import com.sothree.slidinguppanel.PanelState
-import kotlinx.android.synthetic.main.activity_demo.*
+import com.sothree.slidinguppanel.demo.databinding.ActivityDemoBinding
 import java.util.*
 
 class DemoActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDemoBinding
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_demo)
+        binding = ActivityDemoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
-        listView.onItemClickListener =
+        binding.listView.onItemClickListener =
             OnItemClickListener { parent, view, position, id -> Toast.makeText(this@DemoActivity, "onItemClick", Toast.LENGTH_SHORT).show() }
         val yourArrayList = Arrays.asList(
             "This",
@@ -61,8 +65,8 @@ class DemoActivity : AppCompatActivity() {
             android.R.layout.simple_list_item_1,
             yourArrayList
         )
-        listView.adapter = arrayAdapter
-        sliding_layout.addPanelSlideListener(object : PanelSlideListener {
+        binding.listView.adapter = arrayAdapter
+        binding.slidingLayout.addPanelSlideListener(object : PanelSlideListener {
             override fun onPanelSlide(panel: View, slideOffset: Float) {
                 Log.i(TAG, "onPanelSlide, offset $slideOffset")
             }
@@ -71,7 +75,7 @@ class DemoActivity : AppCompatActivity() {
                 Log.i(TAG, "onPanelStateChanged $newState")
             }
         })
-        sliding_layout.setFadeOnClickListener { sliding_layout.setPanelState(PanelState.COLLAPSED) }
+        binding.slidingLayout.setFadeOnClickListener { binding.slidingLayout.setPanelState(PanelState.COLLAPSED) }
         val textName = findViewById<TextView>(R.id.name)
         textName.text = Html.fromHtml(getString(R.string.hello))
         val followButton = findViewById<Button>(R.id.follow)
@@ -88,7 +92,7 @@ class DemoActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.demo, menu)
         val item = menu.findItem(R.id.action_toggle)
-        if (sliding_layout.panelState == PanelState.HIDDEN) {
+        if (binding.slidingLayout.panelState == PanelState.HIDDEN) {
             item.setTitle(R.string.action_show)
         } else {
             item.setTitle(R.string.action_hide)
@@ -103,23 +107,23 @@ class DemoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_toggle -> {
-                if (sliding_layout.panelState != PanelState.HIDDEN) {
-                    sliding_layout.panelState = PanelState.HIDDEN
+                if (binding.slidingLayout.panelState != PanelState.HIDDEN) {
+                    binding.slidingLayout.panelState = PanelState.HIDDEN
                     item.setTitle(R.string.action_show)
                 } else {
-                    sliding_layout.panelState = PanelState.COLLAPSED
+                    binding.slidingLayout.panelState = PanelState.COLLAPSED
                     item.setTitle(R.string.action_hide)
                 }
                 return true
             }
             R.id.action_anchor -> {
-                if (sliding_layout.anchorPoint == 1.0f) {
-                    sliding_layout.anchorPoint = 0.7f
-                    sliding_layout.panelState = PanelState.ANCHORED
+                if (binding.slidingLayout.anchorPoint == 1.0f) {
+                    binding.slidingLayout.anchorPoint = 0.7f
+                    binding.slidingLayout.panelState = PanelState.ANCHORED
                     item.setTitle(R.string.action_anchor_disable)
                 } else {
-                    sliding_layout.anchorPoint = 1.0f
-                    sliding_layout.panelState = PanelState.COLLAPSED
+                    binding.slidingLayout.anchorPoint = 1.0f
+                    binding.slidingLayout.panelState = PanelState.COLLAPSED
                     item.setTitle(R.string.action_anchor_enable)
                 }
                 return true
@@ -129,8 +133,8 @@ class DemoActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if ((sliding_layout.panelState == PanelState.EXPANDED || sliding_layout.panelState == PanelState.ANCHORED)) {
-            sliding_layout.panelState = PanelState.COLLAPSED
+        if ((binding.slidingLayout.panelState == PanelState.EXPANDED || binding.slidingLayout.panelState == PanelState.ANCHORED)) {
+            binding.slidingLayout.panelState = PanelState.COLLAPSED
         } else {
             super.onBackPressed()
         }
