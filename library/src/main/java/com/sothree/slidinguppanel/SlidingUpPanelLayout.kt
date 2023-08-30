@@ -206,10 +206,10 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         if (dragHelper?.viewDragState == ViewDragHelper.STATE_SETTLING) {
             dragHelper?.abort()
         }
-        require(state !== PanelState.DRAGGING) { "Panel state cannot be DRAGGING during state set" }
+        require(state !== PanelState.DRAGGING) { "Panel state can't be DRAGGING during state set" }
         if (!isEnabled
-            || !firstLayout && slideableView == null
-            || state === slideState || slideState === PanelState.DRAGGING
+            || (!firstLayout && (slideableView == null))
+            || (state === slideState) || (slideState === PanelState.DRAGGING)
         ) return
         if (firstLayout) {
             setPanelStateInternal(state)
@@ -314,74 +314,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         } else {
             var scrollerInterpolator: Interpolator? = null
             if (attrs != null) {
-                val defAttrs = context.obtainStyledAttributes(attrs, DEFAULT_ATTRS)
-                try {
-                    val gravity = defAttrs.getInt(0, Gravity.NO_GRAVITY)
-                    setGravity(gravity)
-                } finally {
-                    defAttrs.recycle()
-                }
-                val ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingUpPanelLayout)
-                try {
-                    panelHeight = ta.getDimensionPixelSize(
-                        R.styleable.SlidingUpPanelLayout_umanoPanelHeight,
-                        -1
-                    )
-                    shadowHeight = ta.getDimensionPixelSize(
-                        R.styleable.SlidingUpPanelLayout_umanoShadowHeight,
-                        -1
-                    )
-                    parallaxOffset = ta.getDimensionPixelSize(
-                        R.styleable.SlidingUpPanelLayout_umanoParallaxOffset,
-                        -1
-                    )
-                    minFlingVelocity = ta.getInt(
-                        R.styleable.SlidingUpPanelLayout_umanoFlingVelocity,
-                        DEFAULT_MIN_FLING_VELOCITY
-                    )
-                    coveredFadeColor = ta.getColor(
-                        R.styleable.SlidingUpPanelLayout_umanoFadeColor,
-                        DEFAULT_FADE_COLOR
-                    )
-                    dragViewResId =
-                        ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoDragView, -1)
-                    scrollableViewResId =
-                        ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollableView, -1)
-                    aboveShadowResId =
-                        ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoAboveShadowStyle, -1)
-                    belowShadowResId =
-                        ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoBelowShadowStyle, -1)
-                    overlayContent = ta.getBoolean(
-                        R.styleable.SlidingUpPanelLayout_umanoOverlay,
-                        DEFAULT_OVERLAY_FLAG
-                    )
-                    clipPanel = ta.getBoolean(
-                        R.styleable.SlidingUpPanelLayout_umanoClipPanel,
-                        DEFAULT_CLIP_PANEL_FLAG
-                    )
-                    anchorPoint = ta.getFloat(
-                        R.styleable.SlidingUpPanelLayout_umanoAnchorPoint,
-                        DEFAULT_ANCHOR_POINT
-                    )
-                    maxSlideOffset = ta.getFloat(
-                        R.styleable.SlidingUpPanelLayout_umanoMaxSlidingOffset,
-                        DEFAULT_MAX_SLIDING_OFFSET
-                    )
-                    slideState = PanelState.values()[ta.getInt(
-                        R.styleable.SlidingUpPanelLayout_umanoInitialState,
-                        DEFAULT_SLIDE_STATE.ordinal
-                    )]
-                    val interpolatorResId = ta.getResourceId(
-                        R.styleable.SlidingUpPanelLayout_umanoScrollInterpolator,
-                        -1
-                    )
-                    if (interpolatorResId != -1) {
-                        scrollerInterpolator =
-                            AnimationUtils.loadInterpolator(context, interpolatorResId)
-                    }
-                } finally {
-                    ta.recycle()
-                }
+                scrollerInterpolator = initAttributes(context, attrs)
             }
             val density = context.resources.displayMetrics.density
             if (panelHeight == -1) {
@@ -394,28 +327,103 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
                 parallaxOffset = (DEFAULT_PARALLAX_OFFSET * density).toInt()
             }
             // If the shadow height is zero, don't show the shadow
-            shadowDrawable = if (shadowHeight > 0) {
-                if (isSlidingUp) {
-                    if (aboveShadowResId == -1) {
-                        ContextCompat.getDrawable(context, R.drawable.above_shadow)
-                    } else {
-                        ContextCompat.getDrawable(context, aboveShadowResId)
-                    }
-                } else {
-                    if (belowShadowResId == -1) {
-                        ContextCompat.getDrawable(context, R.drawable.below_shadow)
-                    } else {
-                        ContextCompat.getDrawable(context, belowShadowResId)
-                    }
-                }
-            } else {
-                null
-            }
+            shadowDrawable = makeShadowDrawable(context)
             setWillNotDraw(false)
             dragHelper = create(this, 0.5f, scrollerInterpolator, DragHelperCallback())
             dragHelper?.minVelocity = minFlingVelocity * density
             touchEnabled = true
         }
+    }
+
+    private fun initAttributes(context: Context, attrs: AttributeSet?): Interpolator? {
+        val defAttrs = context.obtainStyledAttributes(attrs, DEFAULT_ATTRS)
+        try {
+            val gravity = defAttrs.getInt(0, Gravity.NO_GRAVITY)
+            setGravity(gravity)
+        } finally {
+            defAttrs.recycle()
+        }
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingUpPanelLayout)
+        var scrollerInterpolator: Interpolator? = null
+        try {
+            panelHeight = ta.getDimensionPixelSize(
+                R.styleable.SlidingUpPanelLayout_umanoPanelHeight,
+                -1
+            )
+            shadowHeight = ta.getDimensionPixelSize(
+                R.styleable.SlidingUpPanelLayout_umanoShadowHeight,
+                -1
+            )
+            parallaxOffset = ta.getDimensionPixelSize(
+                R.styleable.SlidingUpPanelLayout_umanoParallaxOffset,
+                -1
+            )
+            minFlingVelocity = ta.getInt(
+                R.styleable.SlidingUpPanelLayout_umanoFlingVelocity,
+                DEFAULT_MIN_FLING_VELOCITY
+            )
+            coveredFadeColor = ta.getColor(
+                R.styleable.SlidingUpPanelLayout_umanoFadeColor,
+                DEFAULT_FADE_COLOR
+            )
+            dragViewResId =
+                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoDragView, -1)
+            scrollableViewResId =
+                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollableView, -1)
+            aboveShadowResId =
+                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoAboveShadowStyle, -1)
+            belowShadowResId =
+                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoBelowShadowStyle, -1)
+            overlayContent = ta.getBoolean(
+                R.styleable.SlidingUpPanelLayout_umanoOverlay,
+                DEFAULT_OVERLAY_FLAG
+            )
+            clipPanel = ta.getBoolean(
+                R.styleable.SlidingUpPanelLayout_umanoClipPanel,
+                DEFAULT_CLIP_PANEL_FLAG
+            )
+            anchorPoint = ta.getFloat(
+                R.styleable.SlidingUpPanelLayout_umanoAnchorPoint,
+                DEFAULT_ANCHOR_POINT
+            )
+            maxSlideOffset = ta.getFloat(
+                R.styleable.SlidingUpPanelLayout_umanoMaxSlidingOffset,
+                DEFAULT_MAX_SLIDING_OFFSET
+            )
+            slideState = PanelState.values()[ta.getInt(
+                R.styleable.SlidingUpPanelLayout_umanoInitialState,
+                DEFAULT_SLIDE_STATE.ordinal
+            )]
+            val interpolatorResId = ta.getResourceId(
+                R.styleable.SlidingUpPanelLayout_umanoScrollInterpolator,
+                -1
+            )
+            if (interpolatorResId != -1) {
+                scrollerInterpolator =
+                    AnimationUtils.loadInterpolator(context, interpolatorResId)
+            }
+        } finally {
+            ta.recycle()
+        }
+        return scrollerInterpolator
+    }
+
+    private fun makeShadowDrawable(context: Context) = if (shadowHeight > 0) {
+        if (isSlidingUp) {
+            if (aboveShadowResId == -1) {
+                ContextCompat.getDrawable(context, R.drawable.above_shadow)
+            } else {
+                ContextCompat.getDrawable(context, aboveShadowResId)
+            }
+        } else {
+            if (belowShadowResId == -1) {
+                ContextCompat.getDrawable(context, R.drawable.below_shadow)
+            } else {
+                ContextCompat.getDrawable(context, belowShadowResId)
+            }
+        }
+    } else {
+        null
     }
 
     /**
@@ -493,6 +501,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     }
 
     fun addPanelSlideListener(listener: PanelSlideListener) {
+        // TODO why do we synchronize again, this is already a costly CopyOnWriteArrayList? Maybe should use Kotlin Collections.synchronizedList() wrapper instead?
         synchronized(panelSlideListeners) { panelSlideListeners.add(listener) }
     }
 
@@ -608,11 +617,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      * previous state and the new state. Careful: this process is synchronized to avoid out-of-order
      * callbacks. Call this method sparingly.
      */
-    fun dispatchOnPanelStateChanged(
-        panel: View,
-        previousState: PanelState,
-        newState: PanelState,
-    ) {
+    fun dispatchOnPanelStateChanged(panel: View, previousState: PanelState, newState: PanelState) {
         synchronized(panelSlideListeners) {
             for (l in panelSlideListeners) {
                 l.onPanelStateChanged(panel, previousState, newState)
@@ -622,13 +627,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     }
 
     fun updateObscuredViewVisibility() {
-        if (childCount == 0) {
-            return
-        }
-        val leftBound = paddingLeft
-        val rightBound = width - paddingRight
-        val topBound = paddingTop
-        val bottomBound = height - paddingBottom
+        if (childCount == 0) return
         val left: Int
         val right: Int
         val top: Int
@@ -645,10 +644,10 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             left = 0
         }
         val child = getChildAt(0)
-        val clampedChildLeft = max(leftBound, child.left)
-        val clampedChildTop = max(topBound, child.top)
-        val clampedChildRight = min(rightBound, child.right)
-        val clampedChildBottom = min(bottomBound, child.bottom)
+        val clampedChildLeft = max(paddingLeft, child.left)
+        val clampedChildTop = max(paddingTop, child.top)
+        val clampedChildRight = min(width - paddingRight, child.right)
+        val clampedChildBottom = min(height - paddingBottom, child.bottom)
         val vis: Int =
             if (clampedChildLeft >= left && clampedChildTop >= top && clampedChildRight <= right && clampedChildBottom <= bottom) {
                 INVISIBLE
@@ -728,13 +727,16 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
                 // See https://github.com/umano/AndroidSlidingUpPanel/issues/412.
                 height -= lp.topMargin
             }
-            var childWidthSpec: Int
-            childWidthSpec = if (lp.width == MarginLayoutParams.WRAP_CONTENT) {
-                MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST)
-            } else if (lp.width == MarginLayoutParams.MATCH_PARENT) {
-                MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
-            } else {
-                MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY)
+            val childWidthSpec: Int = when (lp.width) {
+                MarginLayoutParams.WRAP_CONTENT -> {
+                    MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST)
+                }
+                MarginLayoutParams.MATCH_PARENT -> {
+                    MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+                }
+                else -> {
+                    MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY)
+                }
             }
             var childHeightSpec: Int
             if (lp.height == MarginLayoutParams.WRAP_CONTENT) {
@@ -815,7 +817,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         // If the scrollable view is handling touch, never intercept
         if (isScrollableViewHandlingTouch || !isTouchEnabled) {
-            dragHelper!!.abort()
+            dragHelper?.abort()
             return false
         }
         val action = ev.action
@@ -883,7 +885,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         val action = ev.action
         if (!isEnabled || !isTouchEnabled || isUnableToDrag && action != MotionEvent.ACTION_DOWN) {
-            dragHelper!!.abort()
+            dragHelper?.abort()
             return super.dispatchTouchEvent(ev)
         }
         val x = ev.x
@@ -1138,7 +1140,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     /**
      * Tests scrollability within child views of v given a delta of dx.
      *
-     * @param v      View to test for horizontal scrollability
+     * @param view      View to test for horizontal scrollability
      * @param checkV Whether the view v passed should itself be checked for scrollability (true),
      * or just its children (false).
      * @param dx     Delta scrolled in pixels
@@ -1146,15 +1148,14 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      * @param y      Y coordinate of the active touch point
      * @return true if child views of v can be scrolled by delta of dx.
      */
-    protected fun canScroll(v: View, checkV: Boolean, dx: Int, x: Int, y: Int): Boolean {
-        if (v is ViewGroup) {
-            val group = v
-            val scrollX = v.getScrollX()
-            val scrollY = v.getScrollY()
-            val count = group.childCount
+    protected fun canScroll(view: View, checkV: Boolean, dx: Int, x: Int, y: Int): Boolean {
+        if (view is ViewGroup) {
+            val scrollX = view.getScrollX()
+            val scrollY = view.getScrollY()
+            val count = view.childCount
             // Count backwards - let topmost views consume scroll distance first.
             for (i in count - 1 downTo 0) {
-                val child = group.getChildAt(i)
+                val child = view.getChildAt(i)
                 if (x + scrollX >= child.left && x + scrollX < child.right && y + scrollY >= child.top && y + scrollY < child.bottom &&
                     canScroll(
                         child, true, dx, x + scrollX - child.left,
@@ -1165,7 +1166,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
                 }
             }
         }
-        return checkV && v.canScrollHorizontally(-dx)
+        return checkV && view.canScrollHorizontally(-dx)
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {
@@ -1234,13 +1235,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             setAllChildrenVisible()
         }
 
-        override fun onViewPositionChanged(
-            changedView: View?,
-            left: Int,
-            top: Int,
-            dx: Int,
-            dy: Int,
-        ) {
+        override fun onViewPositionChanged(changedView: View?, left: Int, top: Int, dx: Int, dy: Int) {
             onPanelDragged(top)
             invalidate()
         }
@@ -1304,5 +1299,4 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             }
         }
     }
-
 }
