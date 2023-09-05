@@ -207,9 +207,9 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             dragHelper?.abort()
         }
         require(state !== PanelState.DRAGGING) { "Panel state can't be DRAGGING during state set" }
-        if (!isEnabled
-            || (!firstLayout && (slideableView == null))
-            || (state === slideState) || (slideState === PanelState.DRAGGING)
+        if (!isEnabled ||
+            (!firstLayout && (slideableView == null)) ||
+            (state === slideState) || (slideState === PanelState.DRAGGING)
         ) return
         if (firstLayout) {
             setPanelStateInternal(state)

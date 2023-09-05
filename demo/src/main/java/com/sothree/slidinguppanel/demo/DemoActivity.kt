@@ -141,6 +141,7 @@ class DemoActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if ((binding.slidingLayout.getPanelState() == PanelState.EXPANDED || binding.slidingLayout.getPanelState() == PanelState.ANCHORED)) {
             binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
