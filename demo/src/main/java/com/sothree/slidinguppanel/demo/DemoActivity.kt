@@ -19,10 +19,10 @@ import androidx.appcompat.widget.Toolbar
 import com.sothree.slidinguppanel.PanelSlideListener
 import com.sothree.slidinguppanel.PanelState
 import com.sothree.slidinguppanel.demo.databinding.ActivityDemoBinding
-import java.util.Arrays
 
 class DemoActivity : AppCompatActivity() {
 
+    private val tag = "DemoActivity"
     private lateinit var binding: ActivityDemoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,15 +31,10 @@ class DemoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(findViewById<View>(R.id.main_toolbar) as Toolbar)
-        binding.listView.onItemClickListener =
-            OnItemClickListener { parent, view, position, id ->
-                Toast.makeText(
-                    this@DemoActivity,
-                    "onItemClick",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        val yourArrayList = Arrays.asList(
+        binding.listView.onItemClickListener = OnItemClickListener { _, _, _, _ ->
+            Toast.makeText(this@DemoActivity, "onItemClick", Toast.LENGTH_SHORT).show()
+        }
+        val yourArrayList = listOf(
             "This",
             "Is",
             "An",
@@ -70,22 +65,16 @@ class DemoActivity : AppCompatActivity() {
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
         val arrayAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            yourArrayList
+            this, android.R.layout.simple_list_item_1, yourArrayList
         )
         binding.listView.adapter = arrayAdapter
         binding.slidingLayout.addPanelSlideListener(object : PanelSlideListener {
             override fun onPanelSlide(panel: View, slideOffset: Float) {
-                Log.i(TAG, "onPanelSlide, offset $slideOffset")
+                Log.i(tag, "onPanelSlide, offset $slideOffset")
             }
 
-            override fun onPanelStateChanged(
-                panel: View,
-                previousState: PanelState,
-                newState: PanelState,
-            ) {
-                Log.i(TAG, "onPanelStateChanged $newState")
+            override fun onPanelStateChanged(panel: View, previousState: PanelState, newState: PanelState) {
+                Log.i(tag, "onPanelStateChanged $newState")
             }
         })
         binding.slidingLayout.setFadeOnClickListener { binding.slidingLayout.setPanelState(PanelState.COLLAPSED) }
