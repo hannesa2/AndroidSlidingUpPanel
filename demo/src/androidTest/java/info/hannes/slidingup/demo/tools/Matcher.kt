@@ -18,8 +18,8 @@ fun withValue(expectedValue: PanelState): Matcher<View?> {
         }
 
         override fun matchesSafely(slider: SlidingUpPanelLayout): Boolean {
-            Log.d("slider", slider.panelState.toString())
-            return slider.panelState == expectedValue
+            Log.d("slider", slider.getPanelState().toString())
+            return slider.getPanelState() == expectedValue
         }
     }
 }
@@ -36,7 +36,7 @@ fun setValue(value: PanelState): ViewAction {
 
         override fun perform(uiController: UiController?, view: View) {
             val seekBar = view as SlidingUpPanelLayout
-            seekBar.panelState = value
+            seekBar.setPanelState(value)
         }
     }
 }

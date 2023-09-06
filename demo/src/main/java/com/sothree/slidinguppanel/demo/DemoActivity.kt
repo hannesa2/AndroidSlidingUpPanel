@@ -11,8 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -76,15 +74,15 @@ class DemoActivity : AppCompatActivity() {
 
             override fun onPanelStateChanged(panel: View, previousState: PanelState, newState: PanelState) {
                 Log.i(tag, "onPanelStateChanged $newState")
-                binding.state.text = binding.slidingLayout.panelState.toString()
+                binding.state.text = binding.slidingLayout.getPanelState().toString()
             }
         })
         binding.slidingLayout.setFadeOnClickListener {
             binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
-            Log.i(TAG, "FadeOnClickListener ${binding.slidingLayout.panelState}")
+            Log.i(tag, "FadeOnClickListener ${binding.slidingLayout.getPanelState()}")
         }
         binding.nameMain.text = Html.fromHtml(getString(R.string.hello))
-        binding.state.text = binding.slidingLayout.panelState.toString()
+        binding.state.text = binding.slidingLayout.getPanelState().toString()
         binding.followMain.text = Html.fromHtml(getString(R.string.follow))
         binding.follow.text = Html.fromHtml(getString(R.string.follow))
         binding.follow.movementMethod = LinkMovementMethod.getInstance()
