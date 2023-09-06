@@ -12,6 +12,9 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments useTestStorageService: 'true'
     }
     lint {
         abortOnError false
@@ -24,4 +27,9 @@ dependencies {
     implementation project(':library')
     implementation "androidx.core:core-ktx:1.10.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
+    androidTestUtil "androidx.test.services:test-services:1.4.2"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
 }

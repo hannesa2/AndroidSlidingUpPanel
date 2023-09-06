@@ -69,19 +69,29 @@ class DemoActivity : AppCompatActivity() {
         binding.slidingLayout.addPanelSlideListener(object : PanelSlideListener {
             override fun onPanelSlide(panel: View, slideOffset: Float) {
                 Log.i(TAG, "onPanelSlide, offset $slideOffset")
+                binding.slideOffset.text = slideOffset.toString()
             }
 
             override fun onPanelStateChanged(panel: View, previousState: PanelState, newState: PanelState) {
                 Log.i(TAG, "onPanelStateChanged $newState")
+                binding.state.text = binding.slidingLayout.panelState.toString()
             }
         })
-        binding.slidingLayout.setFadeOnClickListener { binding.slidingLayout.setPanelState(PanelState.COLLAPSED) }
-        val textName = findViewById<TextView>(R.id.name)
-        textName.text = Html.fromHtml(getString(R.string.hello))
-        val followButton = findViewById<Button>(R.id.follow)
-        followButton.text = Html.fromHtml(getString(R.string.follow))
-        followButton.movementMethod = LinkMovementMethod.getInstance()
-        followButton.setOnClickListener {
+        binding.slidingLayout.setFadeOnClickListener {
+            binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
+            Log.i(TAG, "FadeOnClickListener ${binding.slidingLayout.panelState}")
+        }
+        binding.nameMain.text = Html.fromHtml(getString(R.string.hello))
+        binding.state.text = binding.slidingLayout.panelState.toString()
+        binding.followMain.text = Html.fromHtml(getString(R.string.follow))
+        binding.follow.text = Html.fromHtml(getString(R.string.follow))
+        binding.follow.movementMethod = LinkMovementMethod.getInstance()
+        binding.followMain.setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("http://www.twitter.com/umanoapp")
+            startActivity(i)
+        }
+        binding.follow.setOnClickListener {
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse("http://www.twitter.com/umanoapp")
             startActivity(i)
