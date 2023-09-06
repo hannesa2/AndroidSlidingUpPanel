@@ -25,17 +25,30 @@
             android:background="?attr/colorPrimary"
             sothree:theme="@style/ActionBar" />
 
-        <TextView
-            android:id="@+id/main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:clickable="true"
-            android:focusable="false"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:text="Main Content"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameMain"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/followMain"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
     </FrameLayout>
 
     <!-- SLIDING LAYOUT -->
@@ -54,7 +67,16 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/state"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/slideOffset"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
