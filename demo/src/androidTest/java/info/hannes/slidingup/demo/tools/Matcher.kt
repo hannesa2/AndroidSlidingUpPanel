@@ -1,4 +1,4 @@
-package info.hannes.slidingup.demo
+package info.hannes.slidingup.demo.tools
 
 import android.util.Log
 import android.view.View
