@@ -13,6 +13,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: prepare
+        run: brew install exiftool imagemagick
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
@@ -46,3 +51,15 @@ jobs:
           path: |
             demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
             demo/build/outputs/androidTest-results/connected
+      - name: Compare screenshots
+        run: |
+            ls -ls demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
+            cp demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ 9/* screenshotsToCompare
+            ./screenShotCompare.sh
+      - name: Archive screenshots diffs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: SlidingUp-Screenshots-diffs
+          path: |
+            screenshotDiffs
