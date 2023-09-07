@@ -75,6 +75,7 @@ class NoAnchorTest {
         for (i in 0..2) {
             onView(withId(R.id.follow)).perform(ViewActions.swipeUp())
             onView(withId(R.id.follow)).perform(ViewActions.swipeDown())
+            Thread.sleep(WAIT_SLIDER)
             onView(ViewMatchers.isRoot())
                 .captureToBitmap()
                 .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-EXPANDED-$i")
@@ -95,6 +96,7 @@ class NoAnchorTest {
         Thread.sleep(WAIT_SLIDER)
         // should be still EXPANDED
         onView(withId(R.id.sliding_layout)).check(matches(withValue(PanelState.EXPANDED)))
+        Thread.sleep(WAIT_SLIDER)
         onView(ViewMatchers.isRoot())
             .captureToBitmap()
             .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-2")
