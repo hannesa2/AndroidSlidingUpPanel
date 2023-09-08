@@ -38,6 +38,10 @@ class AnchorTest {
     @Before
     fun setup() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
+        Thread.sleep(WAIT_SLIDER)
+        onView(ViewMatchers.isRoot())
+            .captureToBitmap()
+            .writeToTestStorage("${javaClass.simpleName}_setup")
         onView(withText(R.string.action_anchor_enable)).perform(click());
     }
 
