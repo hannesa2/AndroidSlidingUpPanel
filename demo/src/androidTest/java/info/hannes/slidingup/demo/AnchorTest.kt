@@ -105,6 +105,7 @@ class AnchorTest {
         for (i in 0..2) {
             onView(withId(R.id.follow)).perform(ViewActions.swipeUp())
             onView(withId(R.id.follow)).perform(ViewActions.swipeDown())
+            Thread.sleep(WAIT_SLIDER)
             onView(ViewMatchers.isRoot())
                 .captureToBitmap()
                 .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-EXPANDED-$i")
@@ -116,6 +117,7 @@ class AnchorTest {
         for (i in 0..2) {
             onView(withId(R.id.follow)).perform(ViewActions.swipeUp())
             onView(withId(R.id.follow)).perform(ViewActions.swipeDown())
+            Thread.sleep(WAIT_SLIDER)
             onView(ViewMatchers.isRoot())
                 .captureToBitmap()
                 .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-ANCHORED-$i")
