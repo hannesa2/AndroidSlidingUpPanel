@@ -25,6 +25,10 @@ jobs:
           java-version: 11
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.4
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - name: Build with Gradle
         run: ./gradlew assembleDebug
       - name: Run tests
@@ -47,7 +51,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
-          name: SlidingUp-Screenshots
+          name: SlidingUp-Screenshots-${{ steps.extract_branch.outputs.branch }}
           path: |
             demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
             demo/build/outputs/androidTest-results/connected
@@ -60,6 +64,6 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
-          name: SlidingUp-Screenshots-diffs
+          name: SlidingUp-diffs-${{ steps.extract_branch.outputs.branch }}
           path: |
             screenshotDiffs
