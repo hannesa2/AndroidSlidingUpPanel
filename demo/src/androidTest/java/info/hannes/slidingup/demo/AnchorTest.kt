@@ -47,6 +47,7 @@ class AnchorTest {
 
     @Test
     fun testExpand() {
+        Thread.sleep(WAIT_SLIDER)
         onView(ViewMatchers.isRoot())
             .captureToBitmap()
             .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-1")
