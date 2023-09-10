@@ -62,6 +62,7 @@ class NoAnchorTest {
 
         for (i in 0..2) {
             onView(withId(R.id.follow)).perform(swipeUp())
+            Thread.sleep(WAIT_SLIDER)
             onView(ViewMatchers.isRoot())
                 .captureToBitmap()
                 .writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-COLLAPSED$i")
