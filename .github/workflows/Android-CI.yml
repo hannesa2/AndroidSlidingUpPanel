@@ -21,7 +21,7 @@ jobs:
         env:
           name: "${{env.BRANCH_NAME}}"
         run: |
-          echo "MODIFIED_BRANCH_NAME=${name/\//-}" >> ${GITHUB_OUTPUT}
+          echo "MODIFIED_BRANCH_NAME=${name//\//-}" >> ${GITHUB_OUTPUT}
           cat ${GITHUB_OUTPUT}
 
   build:
