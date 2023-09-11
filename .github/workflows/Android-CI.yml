@@ -16,6 +16,11 @@ jobs:
         with:
           fetch-depth: 0
           submodules: true
+      - name: Extract branch name
+        shell: bash
+        run: |
+          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - name: prepare
         run: brew install exiftool imagemagick
       - name: set up JDK 17
@@ -25,10 +30,6 @@ jobs:
           java-version: 17
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.4
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
       - name: Build with Gradle
         run: ./gradlew assembleDebug
       - name: Run tests
