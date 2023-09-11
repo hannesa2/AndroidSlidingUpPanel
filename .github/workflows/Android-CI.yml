@@ -5,22 +5,37 @@ on:
     branches:
       - master
   pull_request:
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
 
 jobs:
+  env-job:
+    runs-on: ubuntu-latest
+    outputs:
+      modified-branch-name: ${{ steps.env.outputs.MODIFIED_BRANCH_NAME }}
+    name: Modify branch name
+    steps:
+      - name: Sets MODIFIED_BRANCH_NAME
+        id: env
+        env:
+          name: "${{env.BRANCH_NAME}}"
+        run: |
+          echo "MODIFIED_BRANCH_NAME=${name/\//-}" >> ${GITHUB_OUTPUT}
+          cat ${GITHUB_OUTPUT}
+
   build:
-
     runs-on: macOS-latest
-
+    needs:
+      - env-job
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           submodules: true
-      - name: Extract branch name
-        shell: bash
+      - name: show envs
         run: |
-          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
+          echo ${{ needs.env-job.outputs.modified-branch-name }}
       - name: prepare
         run: brew install exiftool imagemagick
       - name: set up JDK 17
@@ -52,7 +67,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
-          name: SlidingUp-Screenshots-${{ steps.extract_branch.outputs.branch }}
+          name: SlidingUp-Screenshots-${{ needs.env-job.outputs.modified-branch-name }}
           path: |
             demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
             demo/build/outputs/androidTest-results/connected
@@ -65,6 +80,6 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
-          name: SlidingUp-diffs-${{ steps.extract_branch.outputs.branch }}
+          name: SlidingUp-diffs-${{ needs.env-job.outputs.modified-branch-name }}
           path: |
             screenshotDiffs
