@@ -127,7 +127,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     /**
      * The size of the overhang in pixels, when the panel is collapsed
      */
-    private var panelHeight = -1
+    var panelHeight = -1
 
     /**
      * The size of the shadow in pixels.
@@ -170,7 +170,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     /**
      * If set, the panel will transfer the scroll from this view to itself when needed.
      */
-    private var scrollableView: View? = null
+    var scrollableView: View? = null
     private var scrollableViewResId = 0
     private var scrollableViewHelper = ScrollableViewHelper()
 
