@@ -25,7 +25,7 @@ jobs:
           cat ${GITHUB_OUTPUT}
 
   build:
-    runs-on: macOS-latest
+    runs-on: macOS-13
     needs:
       - env-job
     steps:
@@ -36,6 +36,7 @@ jobs:
       - name: show envs
         run: |
           echo ${{ needs.env-job.outputs.modified-branch-name }}
+      - uses: gradle/wrapper-validation-action@v3
       - name: prepare
         run: brew install exiftool imagemagick
       - name: set up JDK 17
