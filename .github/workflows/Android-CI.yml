@@ -11,7 +11,10 @@ env:
 
 jobs:
   env-job:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
     outputs:
       modified-branch-name: ${{ steps.env.outputs.MODIFIED_BRANCH_NAME }}
     name: Modify branch name
@@ -25,7 +28,11 @@ jobs:
           cat ${GITHUB_OUTPUT}
 
   build:
-    runs-on: macOS-13
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macOS-13 ]
+        java_version: [ 17 ]
     needs:
       - env-job
     steps:
@@ -39,11 +46,11 @@ jobs:
       - uses: gradle/wrapper-validation-action@v3
       - name: prepare
         run: brew install exiftool imagemagick
-      - name: set up JDK 17
+      - name: set up JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
-          java-version: 17
+          java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.4
       - name: Build with Gradle
