@@ -32,6 +32,9 @@ jobs:
     strategy:
       matrix:
         os: [ macOS-13 ]
+        api: [ 28 ]
+        abi: [ x86_64 ]
+        tag: [ default ]
         java_version: [ 17 ]
     needs:
       - env-job
@@ -61,9 +64,9 @@ jobs:
         uses: hannesa2/action-android/emulator-run-cmd@0.1.16.7
         with:
           cmd: ./gradlew cAT --continue
-          api: 28
-          tag: default
-          abi: x86_64
+          api: ${{ matrix.api }}
+          tag: ${{ matrix.tag }}
+          abi: ${{ matrix.abi }}
           cmdOptions: -noaudio -no-boot-anim -no-window
       - name: Archive Espresso results
         uses: actions/upload-artifact@v4
@@ -81,9 +84,9 @@ jobs:
             demo/build/outputs/androidTest-results/connected
       - name: Compare screenshots
         run: |
-            ls -ls demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
-            cp demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ 9/* screenshotsToCompare
-            ./screenShotCompare.sh
+          ls -ls demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
+          cp demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ 9/* screenshotsToCompare
+          ./screenShotCompare.sh
       - name: Archive screenshots diffs
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
