@@ -37,6 +37,12 @@ jobs:
         tag: [ default ]
         emulatorApi: [ 9 ]
         java_version: [ 17 ]
+        include:
+          - os: macOS-14
+            api: 34
+            abi: arm64-v8a
+            tag: 'google_apis'
+            java_version: 17
     needs:
       - env-job
     steps:
