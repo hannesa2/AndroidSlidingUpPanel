@@ -35,6 +35,7 @@ jobs:
         api: [ 28 ]
         abi: [ x86_64 ]
         tag: [ default ]
+        emulatorApi: [ 9 ]
         java_version: [ 17 ]
     needs:
       - env-job
@@ -83,10 +84,15 @@ jobs:
             demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
             demo/build/outputs/androidTest-results/connected
       - name: Compare screenshots
+        env:
+          CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
+          emulatorApi: ${{ matrix.emulatorApi }}
         run: |
           ls -ls demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
-          cp demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ 9/* screenshotsToCompare
-          ./screenShotCompare.sh
+          cp demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ ${{ matrix.emulatorApi }}/* screenshotsToCompare${{ matrix.emulatorApi }}
+          export DISPLAY=:99
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          ./screenShotScript/screenShotCompare.sh
       - name: Archive screenshots diffs
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
