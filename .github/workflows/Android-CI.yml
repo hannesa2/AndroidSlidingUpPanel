@@ -100,3 +100,10 @@ jobs:
           name: SlidingUp-diffs-${{ needs.env-job.outputs.modified-branch-name }}
           path: |
             screenshotDiffs
+      - name: Show git status
+        if: ${{ always() }}
+        run: |
+          ls -la artifacts
+          git add screenshotsToCompare${{ matrix.emulatorApi }}
+          git status
+          [ "$(git status -s -uno)" ] && exit 1 || exit 0
