@@ -35,13 +35,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation(libs.appcompat)
     implementation(project(":library"))
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.1.0")
+    implementation(libs.core.ktx)
+    implementation(libs.kotlin.stdlib.jdk7)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit-ktx:1.2.1")
-    androidTestUtil("androidx.test.services:test-services:1.5.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit.ktx)
+    androidTestUtil(libs.test.services)
+    androidTestImplementation(libs.espresso.core)
 }
