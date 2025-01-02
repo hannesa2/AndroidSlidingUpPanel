@@ -1,5 +1,6 @@
-package com.sothree.slidinguppanel.demo
+package info.hannes.slidinguppanel.demo
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.sothree.slidinguppanel.PanelSlideListener
 import com.sothree.slidinguppanel.PanelState
-import com.sothree.slidinguppanel.demo.databinding.ActivityDemoBinding
+import info.hannes.slidinguppanel.demo.databinding.ActivityDemoBinding
 
 class DemoActivity : AppCompatActivity() {
 
@@ -67,6 +68,7 @@ class DemoActivity : AppCompatActivity() {
         )
         binding.listView.adapter = arrayAdapter
         binding.slidingLayout.addPanelSlideListener(object : PanelSlideListener {
+            @SuppressLint("SetTextI18n")
             override fun onPanelSlide(panel: View, slideOffset: Float) {
                 Log.i(tag, "onPanelSlide, offset $slideOffset")
                 binding.slideOffset.text = slideOffset.toString()

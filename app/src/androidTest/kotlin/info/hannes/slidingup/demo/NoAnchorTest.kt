@@ -3,8 +3,8 @@ package info.hannes.slidingup.demo
 import android.graphics.Bitmap
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.captureToBitmap
+import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
@@ -12,10 +12,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sothree.slidinguppanel.PanelState
-import com.sothree.slidinguppanel.demo.DemoActivity
-import com.sothree.slidinguppanel.demo.R
 import info.hannes.slidingup.demo.tools.setValue
 import info.hannes.slidingup.demo.tools.withValue
+import info.hannes.slidinguppanel.demo.DemoActivity
+import info.hannes.slidinguppanel.demo.R
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
@@ -71,7 +71,7 @@ class NoAnchorTest {
 
         for (i in 0..2) {
             onView(withId(R.id.follow)).perform(swipeUp())
-            onView(withId(R.id.follow)).perform(ViewActions.swipeDown())
+            onView(withId(R.id.follow)).perform(swipeDown())
             Thread.sleep(WAIT_SLIDER)
             onView(isRoot())
                 .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-EXPANDED-$i") })
