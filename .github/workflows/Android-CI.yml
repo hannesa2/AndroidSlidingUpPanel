@@ -74,22 +74,22 @@ jobs:
         if: ${{ always() }}
         with:
           name: SlidingUp-Espresso-report
-          path: demo/build/reports/androidTests/connected
+          path: app/build/reports/androidTests/connected
       - name: Archive screenshots
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: SlidingUp-Screenshots-${{ needs.env-job.outputs.modified-branch-name }}
           path: |
-            demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
-            demo/build/outputs/androidTest-results/connected
+            app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
+            app/build/outputs/androidTest-results/connected
       - name: Compare screenshots
         env:
           CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
           emulatorApi: ${{ matrix.emulatorApi }}
         run: |
-          ls -ls demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
-          cp demo/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ ${{ matrix.emulatorApi }}/* screenshotsToCompare${{ matrix.emulatorApi }}
+          ls -ls app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
+          cp app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ ${{ matrix.emulatorApi }}/* screenshotsToCompare${{ matrix.emulatorApi }}
           export DISPLAY=:99
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
           ./screenShotScript/screenShotCompare.sh

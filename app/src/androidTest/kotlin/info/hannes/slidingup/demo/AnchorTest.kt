@@ -2,7 +2,6 @@ package info.hannes.slidingup.demo
 
 import android.graphics.Bitmap
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import com.sothree.slidinguppanel.demo.R
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
@@ -16,9 +15,10 @@ import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.sothree.slidinguppanel.PanelState
-import com.sothree.slidinguppanel.demo.DemoActivity
 import info.hannes.slidingup.demo.tools.setValue
 import info.hannes.slidingup.demo.tools.withValue
+import info.hannes.slidinguppanel.demo.DemoActivity
+import info.hannes.slidinguppanel.demo.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

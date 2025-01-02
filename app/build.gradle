@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace "info.hannes.slidinguppanel.demo"
     buildFeatures {
         viewBinding = true
     }
@@ -25,7 +26,6 @@ android {
     lint {
         abortOnError false
     }
-    namespace "com.sothree.slidinguppanel.demo"
 }
 
 dependencies {
