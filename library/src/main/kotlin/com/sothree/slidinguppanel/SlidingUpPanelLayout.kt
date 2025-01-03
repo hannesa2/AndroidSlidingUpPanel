@@ -192,9 +192,8 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      *
      * @return the current panel state
      */
-    fun getPanelState(): PanelState {
-        return slideState
-    }
+    val panelState: PanelState
+        get() = slideState
 
     /**
      * Change panel state to the given state with
