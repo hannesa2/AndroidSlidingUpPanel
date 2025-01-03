@@ -18,8 +18,8 @@ fun withValue(expectedValue: PanelState): Matcher<View?> {
         }
 
         override fun matchesSafely(slider: SlidingUpPanelLayout): Boolean {
-            Log.d("slider", slider.getPanelState().toString())
-            return slider.getPanelState() == expectedValue
+            Log.d("slider", slider.panelState.toString())
+            return slider.panelState == expectedValue
         }
     }
 }
