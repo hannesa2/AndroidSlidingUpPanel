@@ -76,15 +76,15 @@ class DemoActivity : AppCompatActivity() {
 
             override fun onPanelStateChanged(panel: View, previousState: PanelState, newState: PanelState) {
                 Log.i(tag, "onPanelStateChanged $newState")
-                binding.state.text = binding.slidingLayout.getPanelState().toString()
+                binding.state.text = binding.slidingLayout.panelState.toString()
             }
         })
         binding.slidingLayout.setFadeOnClickListener {
             binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
-            Log.i(tag, "FadeOnClickListener ${binding.slidingLayout.getPanelState()}")
+            Log.i(tag, "FadeOnClickListener ${binding.slidingLayout.panelState}")
         }
         binding.nameMain.text = Html.fromHtml(getString(R.string.hello))
-        binding.state.text = binding.slidingLayout.getPanelState().toString()
+        binding.state.text = binding.slidingLayout.panelState.toString()
         binding.followMain.text = Html.fromHtml(getString(R.string.follow))
         binding.follow.text = Html.fromHtml(getString(R.string.follow))
         binding.follow.movementMethod = LinkMovementMethod.getInstance()
@@ -104,7 +104,7 @@ class DemoActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.demo, menu)
         val item = menu.findItem(R.id.action_toggle)
-        if (binding.slidingLayout.getPanelState() == PanelState.HIDDEN) {
+        if (binding.slidingLayout.panelState == PanelState.HIDDEN) {
             item.setTitle(R.string.action_show)
         } else {
             item.setTitle(R.string.action_hide)
@@ -115,7 +115,7 @@ class DemoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_toggle -> {
-                if (binding.slidingLayout.getPanelState() != PanelState.HIDDEN) {
+                if (binding.slidingLayout.panelState != PanelState.HIDDEN) {
                     binding.slidingLayout.setPanelState(PanelState.HIDDEN)
                     item.setTitle(R.string.action_show)
                 } else {
@@ -143,7 +143,7 @@ class DemoActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if ((binding.slidingLayout.getPanelState() == PanelState.EXPANDED || binding.slidingLayout.getPanelState() == PanelState.ANCHORED)) {
+        if ((binding.slidingLayout.panelState == PanelState.EXPANDED || binding.slidingLayout.panelState == PanelState.ANCHORED)) {
             binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
         } else {
             super.onBackPressed()
