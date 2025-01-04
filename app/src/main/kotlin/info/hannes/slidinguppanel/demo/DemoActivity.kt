@@ -80,7 +80,7 @@ class DemoActivity : AppCompatActivity() {
             }
         })
         binding.slidingLayout.setFadeOnClickListener {
-            binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
+            binding.slidingLayout.panelState = PanelState.COLLAPSED
             Log.i(tag, "FadeOnClickListener ${binding.slidingLayout.panelState}")
         }
         binding.nameMain.text = Html.fromHtml(getString(R.string.hello))
@@ -116,10 +116,10 @@ class DemoActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_toggle -> {
                 if (binding.slidingLayout.panelState != PanelState.HIDDEN) {
-                    binding.slidingLayout.setPanelState(PanelState.HIDDEN)
+                    binding.slidingLayout.panelState = PanelState.HIDDEN
                     item.setTitle(R.string.action_show)
                 } else {
-                    binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
+                    binding.slidingLayout.panelState = PanelState.COLLAPSED
                     item.setTitle(R.string.action_hide)
                 }
                 return true
@@ -128,11 +128,11 @@ class DemoActivity : AppCompatActivity() {
             R.id.action_anchor -> {
                 if (binding.slidingLayout.anchorPoint == 1.0f) {
                     binding.slidingLayout.anchorPoint = 0.7f
-                    binding.slidingLayout.setPanelState(PanelState.ANCHORED)
+                    binding.slidingLayout.panelState = PanelState.ANCHORED
                     item.setTitle(R.string.action_anchor_disable)
                 } else {
                     binding.slidingLayout.anchorPoint = 1.0f
-                    binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
+                    binding.slidingLayout.panelState = PanelState.COLLAPSED
                     item.setTitle(R.string.action_anchor_enable)
                 }
                 return true
@@ -144,7 +144,7 @@ class DemoActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if ((binding.slidingLayout.panelState == PanelState.EXPANDED || binding.slidingLayout.panelState == PanelState.ANCHORED)) {
-            binding.slidingLayout.setPanelState(PanelState.COLLAPSED)
+            binding.slidingLayout.panelState = PanelState.COLLAPSED
         } else {
             super.onBackPressed()
         }
