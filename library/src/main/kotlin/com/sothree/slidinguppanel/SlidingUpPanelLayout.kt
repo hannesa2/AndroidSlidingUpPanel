@@ -373,7 +373,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
                 R.styleable.SlidingUpPanelLayout_umanoMaxSlidingOffset,
                 DEFAULT_MAX_SLIDING_OFFSET
             )
-            slideState = PanelState.values()[ta.getInt(
+            slideState = PanelState.entries.toTypedArray()[ta.getInt(
                 R.styleable.SlidingUpPanelLayout_umanoInitialState,
                 DEFAULT_SLIDE_STATE.ordinal
             )]
@@ -412,7 +412,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     override fun onFinishInflate() {
         super.onFinishInflate()
         if (dragViewResId != -1) {
-            setDragView(findViewById(dragViewResId))
+            setDragView(findViewById<View>(dragViewResId)!!)
         }
         if (scrollableViewResId != -1) {
             scrollableView = findViewById(scrollableViewResId)
@@ -503,10 +503,10 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      *
      * @param dragView A view that will be used to drag the panel.
      */
-    fun setDragView(dragView: View?) {
+    fun setDragView(dragView: View) {
         // First: Unset any listeners to prevent leaks on old references
-        this.dragView?.setOnClickListener(null)
         this.dragView = dragView
+        this.dragView?.setOnClickListener(null)
         this.dragView?.let {
             it.isClickable = true
             it.isFocusable = false
@@ -534,7 +534,8 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      */
     fun setDragView(@IdRes dragViewResId: Int) {
         this.dragViewResId = dragViewResId
-        setDragView(findViewById(dragViewResId))
+        val view = findViewById<View>(dragViewResId)
+        setDragView(view)
     }
 
     /**
@@ -676,7 +677,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         mainView = getChildAt(0)
         slideableView = getChildAt(1)
         if (dragView == null) {
-            setDragView(slideableView)
+            setDragView(slideableView!!)
         }
 
         // If the sliding panel is not visible, then put the whole view in the hidden state
@@ -1072,7 +1073,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      * @param slideOffset position to animate to
      * @param velocity    initial velocity in case of fling, or 0.
      */
-    fun smoothSlideTo(slideOffset: Float, velocity: Int): Boolean {
+    fun smoothSlideTo(slideOffset: Float, velocity: Int = 0): Boolean {
         if (!isEnabled || slideableView == null) {
             // Nothing to do.
             return false
@@ -1080,7 +1081,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         val panelTop = computePanelTopPosition(slideOffset)
         if (dragHelper!!.smoothSlideViewTo(slideableView, slideableView!!.left, panelTop)) {
             setAllChildrenVisible()
-            ViewCompat.postInvalidateOnAnimation(this)
+            this.postInvalidateOnAnimation()
             return true
         }
         return false
@@ -1093,7 +1094,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
                     it.abort()
                     return
                 }
-                ViewCompat.postInvalidateOnAnimation(this)
+                this.postInvalidateOnAnimation()
             }
         }
     }
