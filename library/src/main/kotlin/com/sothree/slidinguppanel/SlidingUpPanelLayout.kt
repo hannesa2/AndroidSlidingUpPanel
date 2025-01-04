@@ -186,39 +186,40 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
 
     private var slideState: PanelState = DEFAULT_SLIDE_STATE
 
-    val panelState: PanelState
+    var panelState: PanelState = DEFAULT_SLIDE_STATE
         get() = slideState
-
-    fun setPanelState(value: PanelState) {
-        // Abort any running animation, to allow state change
-        if (dragHelper?.viewDragState == ViewDragHelper.STATE_SETTLING) {
-            dragHelper?.abort()
-        }
-        require(value !== PanelState.DRAGGING) { "Panel state can't be DRAGGING during state set" }
-        if (!isEnabled ||
-            (!firstLayout && (slideableView == null)) ||
-            (value === slideState) || (slideState === PanelState.DRAGGING)
-        ) return
-        if (firstLayout) {
-            setPanelStateInternal(value)
-        } else {
-            if (slideState === PanelState.HIDDEN) {
-                slideableView!!.visibility = VISIBLE
-                requestLayout()
+        set(value) {
+            slideState = value
+            field = value
+            // Abort any running animation, to allow state change
+            if (dragHelper?.viewDragState == ViewDragHelper.STATE_SETTLING) {
+                dragHelper?.abort()
             }
-            when (value) {
-                PanelState.ANCHORED -> smoothSlideTo(anchorPoint, 0)
-                PanelState.COLLAPSED -> smoothSlideTo(0f, 0)
-                PanelState.EXPANDED -> smoothSlideTo(maxSlideOffset, 0)
-                PanelState.HIDDEN -> {
-                    val newTop = computePanelTopPosition(0.0f) + if (isSlidingUp) +panelHeight else -panelHeight
-                    smoothSlideTo(computeSlideOffset(newTop), 0)
+            require(value !== PanelState.DRAGGING) { "Panel state can't be DRAGGING during state set" }
+            if (!isEnabled ||
+                (!firstLayout && (slideableView == null)) ||
+                (value === slideState) || (slideState === PanelState.DRAGGING)
+            ) return
+            if (firstLayout) {
+                setPanelStateInternal(value)
+            } else {
+                if (slideState === PanelState.HIDDEN) {
+                    slideableView!!.visibility = VISIBLE
+                    requestLayout()
                 }
+                when (value) {
+                    PanelState.ANCHORED -> smoothSlideTo(anchorPoint, 0)
+                    PanelState.COLLAPSED -> smoothSlideTo(0f, 0)
+                    PanelState.EXPANDED -> smoothSlideTo(maxSlideOffset, 0)
+                    PanelState.HIDDEN -> {
+                        val newTop = computePanelTopPosition(0.0f) + if (isSlidingUp) +panelHeight else -panelHeight
+                        smoothSlideTo(computeSlideOffset(newTop), 0)
+                    }
 
-                PanelState.DRAGGING -> Unit
+                    PanelState.DRAGGING -> Unit
+                }
             }
         }
-    }
 
     /**
      * If the current slide state is DRAGGING, this will store the last non dragging state
