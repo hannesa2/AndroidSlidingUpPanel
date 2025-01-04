@@ -17,7 +17,6 @@ import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import com.sothree.slidinguppanel.ViewDragHelper.Companion.create
 import com.sothree.slidinguppanel.canvasSaveProxy.CanvasSaveProxy
 import com.sothree.slidinguppanel.canvasSaveProxy.CanvasSaveProxyFactory
@@ -212,8 +211,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
                 PanelState.COLLAPSED -> smoothSlideTo(0f, 0)
                 PanelState.EXPANDED -> smoothSlideTo(maxSlideOffset, 0)
                 PanelState.HIDDEN -> {
-                    val newTop =
-                        computePanelTopPosition(0.0f) + if (isSlidingUp) +panelHeight else -panelHeight
+                    val newTop = computePanelTopPosition(0.0f) + if (isSlidingUp) +panelHeight else -panelHeight
                     smoothSlideTo(computeSlideOffset(newTop), 0)
                 }
 
@@ -329,61 +327,23 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         val ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingUpPanelLayout)
         var scrollerInterpolator: Interpolator? = null
         try {
-            panelHeight = ta.getDimensionPixelSize(
-                R.styleable.SlidingUpPanelLayout_umanoPanelHeight,
-                -1
-            )
-            shadowHeight = ta.getDimensionPixelSize(
-                R.styleable.SlidingUpPanelLayout_umanoShadowHeight,
-                -1
-            )
-            parallaxOffset = ta.getDimensionPixelSize(
-                R.styleable.SlidingUpPanelLayout_umanoParallaxOffset,
-                -1
-            )
-            minFlingVelocity = ta.getInt(
-                R.styleable.SlidingUpPanelLayout_umanoFlingVelocity,
-                DEFAULT_MIN_FLING_VELOCITY
-            )
-            coveredFadeColor = ta.getColor(
-                R.styleable.SlidingUpPanelLayout_umanoFadeColor,
-                DEFAULT_FADE_COLOR
-            )
-            dragViewResId =
-                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoDragView, -1)
-            scrollableViewResId =
-                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollableView, -1)
-            aboveShadowResId =
-                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoAboveShadowStyle, -1)
-            belowShadowResId =
-                ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoBelowShadowStyle, -1)
-            overlayContent = ta.getBoolean(
-                R.styleable.SlidingUpPanelLayout_umanoOverlay,
-                DEFAULT_OVERLAY_FLAG
-            )
-            clipPanel = ta.getBoolean(
-                R.styleable.SlidingUpPanelLayout_umanoClipPanel,
-                DEFAULT_CLIP_PANEL_FLAG
-            )
-            anchorPoint = ta.getFloat(
-                R.styleable.SlidingUpPanelLayout_umanoAnchorPoint,
-                DEFAULT_ANCHOR_POINT
-            )
-            maxSlideOffset = ta.getFloat(
-                R.styleable.SlidingUpPanelLayout_umanoMaxSlidingOffset,
-                DEFAULT_MAX_SLIDING_OFFSET
-            )
-            slideState = PanelState.entries.toTypedArray()[ta.getInt(
-                R.styleable.SlidingUpPanelLayout_umanoInitialState,
-                DEFAULT_SLIDE_STATE.ordinal
-            )]
-            val interpolatorResId = ta.getResourceId(
-                R.styleable.SlidingUpPanelLayout_umanoScrollInterpolator,
-                -1
-            )
+            panelHeight = ta.getDimensionPixelSize(R.styleable.SlidingUpPanelLayout_umanoPanelHeight, -1)
+            shadowHeight = ta.getDimensionPixelSize(R.styleable.SlidingUpPanelLayout_umanoShadowHeight, -1)
+            parallaxOffset = ta.getDimensionPixelSize(R.styleable.SlidingUpPanelLayout_umanoParallaxOffset, -1)
+            minFlingVelocity = ta.getInt(R.styleable.SlidingUpPanelLayout_umanoFlingVelocity, DEFAULT_MIN_FLING_VELOCITY)
+            coveredFadeColor = ta.getColor(R.styleable.SlidingUpPanelLayout_umanoFadeColor, DEFAULT_FADE_COLOR)
+            dragViewResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoDragView, -1)
+            scrollableViewResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollableView, -1)
+            aboveShadowResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoAboveShadowStyle, -1)
+            belowShadowResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoBelowShadowStyle, -1)
+            overlayContent = ta.getBoolean(R.styleable.SlidingUpPanelLayout_umanoOverlay, DEFAULT_OVERLAY_FLAG)
+            clipPanel = ta.getBoolean(R.styleable.SlidingUpPanelLayout_umanoClipPanel, DEFAULT_CLIP_PANEL_FLAG)
+            anchorPoint = ta.getFloat(R.styleable.SlidingUpPanelLayout_umanoAnchorPoint, DEFAULT_ANCHOR_POINT)
+            maxSlideOffset = ta.getFloat(R.styleable.SlidingUpPanelLayout_umanoMaxSlidingOffset, DEFAULT_MAX_SLIDING_OFFSET)
+            slideState = PanelState.entries.toTypedArray()[ta.getInt(R.styleable.SlidingUpPanelLayout_umanoInitialState, DEFAULT_SLIDE_STATE.ordinal)]
+            val interpolatorResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollInterpolator, -1)
             if (interpolatorResId != -1) {
-                scrollerInterpolator =
-                    AnimationUtils.loadInterpolator(context, interpolatorResId)
+                scrollerInterpolator = AnimationUtils.loadInterpolator(context, interpolatorResId)
             }
         } finally {
             ta.recycle()
