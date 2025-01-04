@@ -184,13 +184,10 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      */
     private var mainView: View? = null
 
-    private var slideState: PanelState = DEFAULT_SLIDE_STATE
+//    private var slideState: PanelState = DEFAULT_SLIDE_STATE
 
     var panelState: PanelState = DEFAULT_SLIDE_STATE
-        get() = slideState
         set(value) {
-            slideState = value
-            field = value
             // Abort any running animation, to allow state change
             if (dragHelper?.viewDragState == ViewDragHelper.STATE_SETTLING) {
                 dragHelper?.abort()
@@ -198,12 +195,12 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             require(value !== PanelState.DRAGGING) { "Panel state can't be DRAGGING during state set" }
             if (!isEnabled ||
                 (!firstLayout && (slideableView == null)) ||
-                (value === slideState) || (slideState === PanelState.DRAGGING)
+                (value === panelState) || (panelState === PanelState.DRAGGING)
             ) return
             if (firstLayout) {
                 setPanelStateInternal(value)
             } else {
-                if (slideState === PanelState.HIDDEN) {
+                if (panelState === PanelState.HIDDEN) {
                     slideableView!!.visibility = VISIBLE
                     requestLayout()
                 }
@@ -218,6 +215,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
 
                     PanelState.DRAGGING -> Unit
                 }
+                field = value
             }
         }
 
@@ -341,7 +339,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             clipPanel = ta.getBoolean(R.styleable.SlidingUpPanelLayout_umanoClipPanel, DEFAULT_CLIP_PANEL_FLAG)
             anchorPoint = ta.getFloat(R.styleable.SlidingUpPanelLayout_umanoAnchorPoint, DEFAULT_ANCHOR_POINT)
             maxSlideOffset = ta.getFloat(R.styleable.SlidingUpPanelLayout_umanoMaxSlidingOffset, DEFAULT_MAX_SLIDING_OFFSET)
-            slideState = PanelState.entries.toTypedArray()[ta.getInt(R.styleable.SlidingUpPanelLayout_umanoInitialState, DEFAULT_SLIDE_STATE.ordinal)]
+            panelState = PanelState.entries.toTypedArray()[ta.getInt(R.styleable.SlidingUpPanelLayout_umanoInitialState, DEFAULT_SLIDE_STATE.ordinal)]
             val interpolatorResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_umanoScrollInterpolator, -1)
             if (interpolatorResId != -1) {
                 scrollerInterpolator = AnimationUtils.loadInterpolator(context, interpolatorResId)
@@ -392,7 +390,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      * Set sliding enabled flag
      */
     var isTouchEnabled: Boolean
-        get() = touchEnabled && slideableView != null && slideState !== PanelState.HIDDEN
+        get() = touchEnabled && slideableView != null && panelState !== PanelState.HIDDEN
         set(enabled) {
             touchEnabled = enabled
         }
@@ -474,8 +472,8 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             it.isFocusableInTouchMode = false
             it.setOnClickListener(OnClickListener {
                 if (!isEnabled || !isTouchEnabled) return@OnClickListener
-                slideState =
-                    if (slideState !== PanelState.EXPANDED && slideState !== PanelState.ANCHORED) {
+                panelState =
+                    if (panelState !== PanelState.EXPANDED && panelState !== PanelState.ANCHORED) {
                         if (anchorPoint < DEFAULT_ANCHOR_POINT) {
                             PanelState.ANCHORED
                         } else {
@@ -643,7 +641,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
 
         // If the sliding panel is not visible, then put the whole view in the hidden state
         if (slideableView?.visibility != VISIBLE) {
-            slideState = PanelState.HIDDEN
+            panelState = PanelState.HIDDEN
         }
         val layoutHeight = heightSize - paddingTop - paddingBottom
         val layoutWidth = widthSize - paddingLeft - paddingRight
@@ -660,7 +658,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
             var height = layoutHeight
             var width = layoutWidth
             if (child === mainView) {
-                if (!overlayContent && slideState !== PanelState.HIDDEN) {
+                if (!overlayContent && panelState !== PanelState.HIDDEN) {
                     height -= panelHeight
                 }
                 width -= lp.leftMargin + lp.rightMargin
@@ -707,7 +705,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         val paddingTop = paddingTop
         val childCount = childCount
         if (firstLayout) {
-            slideOffset = when (slideState) {
+            slideOffset = when (panelState) {
                 PanelState.EXPANDED -> maxSlideOffset
                 PanelState.ANCHORED -> anchorPoint
                 PanelState.HIDDEN -> {
@@ -947,9 +945,9 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     }
 
     private fun setPanelStateInternal(state: PanelState) {
-        if (slideState === state) return
-        val oldState = slideState
-        slideState = state
+        if (panelState === state) return
+        val oldState = panelState
+        panelState = state
         dispatchOnPanelStateChanged(this, oldState, state)
     }
 
@@ -965,8 +963,8 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     }
 
     private fun onPanelDragged(newTop: Int) {
-        if (slideState !== PanelState.DRAGGING) {
-            lastNotDraggingSlideState = slideState
+        if (panelState !== PanelState.DRAGGING) {
+            lastNotDraggingSlideState = panelState
         }
         setPanelStateInternal(PanelState.DRAGGING)
         // Recompute the slide offset based on the new top position
@@ -1134,7 +1132,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         bundle.putParcelable("superState", super.onSaveInstanceState())
         bundle.putSerializable(
             SLIDING_STATE,
-            if (slideState !== PanelState.DRAGGING) slideState else lastNotDraggingSlideState
+            if (panelState !== PanelState.DRAGGING) panelState else lastNotDraggingSlideState
         )
         return bundle
     }
@@ -1143,7 +1141,7 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         var parcelable: Parcelable? = state
         if (parcelable is Bundle) {
             val bundle = parcelable
-            slideState = requireNotNull(bundle.getSerializable(SLIDING_STATE)) as PanelState
+            panelState = requireNotNull(bundle.getSerializable(SLIDING_STATE)) as PanelState
             parcelable = bundle.getParcelable("superState")
         }
         super.onRestoreInstanceState(parcelable)
