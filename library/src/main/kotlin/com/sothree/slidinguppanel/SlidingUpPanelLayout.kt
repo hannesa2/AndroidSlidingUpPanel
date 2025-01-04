@@ -189,24 +189,24 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     val panelState: PanelState
         get() = slideState
 
-    fun setPanelState(state: PanelState) {
+    fun setPanelState(value: PanelState) {
         // Abort any running animation, to allow state change
         if (dragHelper?.viewDragState == ViewDragHelper.STATE_SETTLING) {
             dragHelper?.abort()
         }
-        require(state !== PanelState.DRAGGING) { "Panel state can't be DRAGGING during state set" }
+        require(value !== PanelState.DRAGGING) { "Panel state can't be DRAGGING during state set" }
         if (!isEnabled ||
             (!firstLayout && (slideableView == null)) ||
-            (state === slideState) || (slideState === PanelState.DRAGGING)
+            (value === slideState) || (slideState === PanelState.DRAGGING)
         ) return
         if (firstLayout) {
-            setPanelStateInternal(state)
+            setPanelStateInternal(value)
         } else {
             if (slideState === PanelState.HIDDEN) {
                 slideableView!!.visibility = VISIBLE
                 requestLayout()
             }
-            when (state) {
+            when (value) {
                 PanelState.ANCHORED -> smoothSlideTo(anchorPoint, 0)
                 PanelState.COLLAPSED -> smoothSlideTo(0f, 0)
                 PanelState.EXPANDED -> smoothSlideTo(maxSlideOffset, 0)
