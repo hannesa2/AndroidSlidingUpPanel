@@ -187,19 +187,9 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
 
     private var slideState: PanelState = DEFAULT_SLIDE_STATE
 
-    /**
-     * Returns the current state of the panel as an enum.
-     *
-     * @return the current panel state
-     */
     val panelState: PanelState
         get() = slideState
 
-    /**
-     * Change panel state to the given state with
-     *
-     * @param state - new panel state
-     */
     fun setPanelState(state: PanelState) {
         // Abort any running animation, to allow state change
         if (dragHelper?.viewDragState == ViewDragHelper.STATE_SETTLING) {
@@ -254,15 +244,12 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
     private var maxSlideOffset = DEFAULT_MAX_SLIDING_OFFSET
 
     /**
-     * An anchor point where the panel can stop during sliding
+     * Set an anchor point where the panel can stop during sliding
+     *
+     * @param value A value between 0 and 1, determining the position of the anchor point
+     * starting from the top of the layout.
      */
     var anchorPoint = 1f
-        /**
-         * Set an anchor point where the panel can stop during sliding
-         *
-         * @param value A value between 0 and 1, determining the position of the anchor point
-         * starting from the top of the layout.
-         */
         set(value) = if (value > 0 && value <= 1) {
             field = value
             firstLayout = true
@@ -277,9 +264,6 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
      */
     private var isUnableToDrag = false
 
-    /**
-     * Flag indicating that sliding feature is enabled\disabled
-     */
     private var touchEnabled: Boolean = true
 
     /**
@@ -425,9 +409,6 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
         null
     }
 
-    /**
-     * Set the Drag View after the view is inflated
-     */
     override fun onFinishInflate() {
         super.onFinishInflate()
         if (dragViewResId != -1) {
@@ -730,9 +711,11 @@ open class SlidingUpPanelLayout @JvmOverloads constructor(
                 MarginLayoutParams.WRAP_CONTENT -> {
                     MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST)
                 }
+
                 MarginLayoutParams.MATCH_PARENT -> {
                     MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
                 }
+
                 else -> {
                     MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY)
                 }
