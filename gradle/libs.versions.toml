@@ -2,7 +2,7 @@
 appcompat = "1.7.1"
 coreKtx = "1.16.0"
 espressoCore = "3.6.1"
-gradle = "8.11.0"
+gradle = "8.11.1"
 junit = "4.13.2"
 junitKtx = "1.2.1"
 kotlinGradlePlugin = "2.2.0"
