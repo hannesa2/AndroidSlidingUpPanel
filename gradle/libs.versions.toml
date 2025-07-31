@@ -7,7 +7,7 @@ junit = "4.13.2"
 junitKtx = "1.2.1"
 kotlinGradlePlugin = "2.2.0"
 recyclerview = "1.4.0"
-testServices = "1.5.0"
+testServices = "1.6.0"
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
