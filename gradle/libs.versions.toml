@@ -5,7 +5,7 @@ espressoCore = "3.7.0"
 gradle = "8.13.0"
 junit = "4.13.2"
 junitKtx = "1.3.0"
-kotlinGradlePlugin = "2.2.10"
+kotlinGradlePlugin = "2.2.20"
 recyclerview = "1.4.0"
 testServices = "1.6.0"
 
