@@ -47,7 +47,7 @@ jobs:
       - name: show envs
         run: |
           echo ${{ needs.env-job.outputs.modified-branch-name }}
-      - uses: gradle/actions/wrapper-validation@v4
+      - uses: gradle/actions/wrapper-validation@v5
       - name: kvm support
         run: |
           egrep -c '(vmx|svm)' /proc/cpuinfo
