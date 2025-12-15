@@ -79,14 +79,14 @@ jobs:
           abi: ${{ matrix.abi }}
           cmdOptions: -noaudio -no-boot-anim -no-window -metrics-collection
       - name: Archive Espresso results
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ always() }}
         with:
           name: SlidingUp-Espresso-report
           path: app/build/reports/androidTests/connected
       - name: Archive screenshots
         if: ${{ always() }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: SlidingUp-Screenshots-${{ needs.env-job.outputs.modified-branch-name }}
           path: |
@@ -105,7 +105,7 @@ jobs:
           ./screenShotScript/screenShotCompare.sh
       - name: Archive screenshots diffs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: SlidingUp-diffs-${{ needs.env-job.outputs.modified-branch-name }}
           path: |
