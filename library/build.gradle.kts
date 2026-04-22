@@ -1,6 +1,5 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
     id("maven-publish")
 }
 
@@ -16,11 +15,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     lint {
         abortOnError = false
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            consumerProguardFile("proguard-sdk.pro")
+        }
+    }
+    publishing {
+        singleVariant("release") {}
     }
 }
 
@@ -35,6 +40,14 @@ afterEvaluate {
         publications {
             create<MavenPublication>("maven") {
                 from(components["release"])
+                pom {
+                    licenses {
+                        license {
+                            name = "Apache License Version 2.0"
+                            url = "https://github.com/hannesa2/AndroidSlidingUpPanel/blob/master/LICENSE"
+                        }
+                    }
+                }
             }
         }
     }
