@@ -36,7 +36,7 @@ fun setValue(value: PanelState): ViewAction {
 
         override fun perform(uiController: UiController?, view: View) {
             val slidingUpPanelLayout = view as SlidingUpPanelLayout
-            slidingUpPanelLayout.setPanelState(value)
+            slidingUpPanelLayout.panelState = value
         }
     }
 }
