@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.sothree.slidinguppanel.library"
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         compileSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
