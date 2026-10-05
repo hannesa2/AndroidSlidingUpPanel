@@ -7,7 +7,7 @@ android {
     namespace = "com.sothree.slidinguppanel.library"
     defaultConfig {
         minSdk = 23
-        compileSdk = 36
+        compileSdk = 37
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
